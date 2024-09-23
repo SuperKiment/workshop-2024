@@ -49,7 +49,7 @@ passport.use(
     }
   })
 );
-
+/*
 // Sérialiser et désérialiser les utilisateurs
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -63,9 +63,9 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
-
 // Middleware pour Passport
 app.use(passport.initialize());
+*/
 
 // Routes
 // Inscription d'un utilisateur
@@ -105,7 +105,7 @@ app.post(
 // Route pour récupérer tous les utilisateurs
 app.get("/users", async (req, res) => {
   try {
-    const [rows] = await db.execute("SELECT * FROM users");
+    const [rows] = await db.execute("SELECT * FROM Users");
     res.json(rows);
   } catch (err) {
     console.error("Erreur lors de la récupération des utilisateurs :", err);
@@ -157,6 +157,10 @@ app.delete("/users/:id", async (req, res) => {
       .status(500)
       .json({ error: "Erreur lors de la suppression de l'utilisateur" });
   }
+});
+
+app.get("/", async (req, res) => {
+  res.json({ "coucou": "yes" });
 });
 
 // Lancer le serveur
