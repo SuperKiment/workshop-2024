@@ -9,6 +9,7 @@ import dbConfig from "./config.js";
 // Configurer l'application Express
 const app = express();
 app.use(express.json()); // Middleware pour parser les requêtes en JSON
+app.use(express.static("./public"));
 
 // Créer une connexion MySQL avec mysql2
 const db = await mysql.createConnection(dbConfig);
@@ -49,7 +50,7 @@ passport.use(
     }
   })
 );
-/*
+
 // Sérialiser et désérialiser les utilisateurs
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -65,12 +66,12 @@ passport.deserializeUser(async (id, done) => {
 });
 // Middleware pour Passport
 app.use(passport.initialize());
-*/
 
 // Routes
 // Inscription d'un utilisateur
 app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { mail, lastName, firstName, password, isAdmin, idGrade, idCampus } =
+    req.body;
 
   try {
     // Hacher le mot de passe
@@ -78,8 +79,8 @@ app.post("/register", async (req, res) => {
 
     // Insérer l'utilisateur dans la base de données
     const [result] = await db.execute(
-      "INSERT INTO users (username, password) VALUES (?, ?)",
-      [username, hashedPassword]
+      "INSERT INTO Users (idUser, mail, lastName, firstName, password, isAdmin, idGrade, idCampus) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);",
+      [mail, lastName, firstName, hashedPassword, isAdmin, idGrade, idCampus]
     );
 
     res
@@ -124,7 +125,7 @@ app.put("/users/:id", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [result] = await db.execute(
-      "UPDATE users SET username = ?, password = ? WHERE id = ?",
+      "UPDATE Users SET username = ?, password = ? WHERE id = ?",
       [username, hashedPassword, id]
     );
 
@@ -160,7 +161,7 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  res.json({ "coucou": "yes" });
+  res.json({ coucou: "yes" });
 });
 
 // Lancer le serveur
