@@ -167,6 +167,19 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// Route pour récupérer tous les campus
+app.get("/campus", async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM Campus");
+    res.json(rows);
+  } catch (err) {
+    console.error("Erreur lors de la récupération des campus :", err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des campus" });
+  }
+});
+
 /*
 // Route pour mettre à jour un utilisateur
 app.put("/users/:id", async (req, res) => {

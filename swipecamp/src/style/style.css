@@ -37,6 +37,36 @@
 .back1 h1 {
   color: white;
   font-family: text;
+  font-size: 50px;
+  margin-bottom: 50px;
+  /* padding: 50px; */
+  font-weight: bold;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.back1 h2 {
+  color: white;
+  font-family: text;
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.back1 select {
+  font-family: 'text';
+  list-style: none;
+  margin-right: 25px;
+  padding: 15px;
+  background-color: white;
+  color: rgb(68, 194, 195);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .back1 button {
@@ -49,6 +79,11 @@
   border-radius: 10px;
   border: none;
   font-weight: bold;
+  font-size: 20px;
+}
+
+.back1 button:hover{
+  box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
 }
 
 .container {
@@ -153,6 +188,10 @@
   border-radius: 10px;
   border: none;
   font-weight: bold;
+}
+
+.navbar-menu button:hover{
+  box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
 }
 
 .navbar-menu ul li a {
