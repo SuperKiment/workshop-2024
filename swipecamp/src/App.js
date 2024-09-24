@@ -1,21 +1,23 @@
-import './style/style.css';
-import logo from './img/Hippocampe.png';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-    <div className="App back1">
-      <nav className="navbar">
-      <div className="navbar-logo">
-        <a>
-        <img src={logo} alt="Logo" className='logoImg'/>
-        <p>SWIPE O'CAMP</p>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
         </a>
-      </div>
-      <div className="navbar-menu">
-        <button>Mon espace</button>
-      </div>
-    </nav>
-    <div className='long'></div>
+      </header>
     </div>
   );
 }
