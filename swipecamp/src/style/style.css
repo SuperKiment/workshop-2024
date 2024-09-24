@@ -1,0 +1,117 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@font-face {
+  font-family: logo;
+  src: url(../font/Barbra-Regular.otf);
+}
+
+@font-face {
+  font-family: slogan;
+  src: url(../font/Simonetta-Regular.ttf);
+}
+
+@font-face {
+  font-family: text;
+  src: url(../font/Helvetica.ttf);
+}
+
+
+.back1 {
+  background: rgb(68, 194, 195);
+  background: linear-gradient(90deg, rgba(68, 194, 195, 1) 35%, rgba(227, 241, 236, 1) 100%);
+}
+
+.back2 {
+  background: rgb(228, 241, 237);
+  background: linear-gradient(90deg, rgba(228, 241, 237, 1) 35%, rgba(68, 194, 195, 1) 100%);
+}
+
+.back3 {
+  background: rgb(214, 132, 69);
+  background: linear-gradient(90deg, rgba(214, 132, 69, 1) 35%, rgba(245, 229, 215, 1) 100%);
+}
+
+.back4 {
+  background: rgb(245, 229, 215);
+  background: linear-gradient(90deg, rgba(245, 229, 215, 1) 35%, rgba(214, 132, 69, 1) 100%);
+}
+
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  font-family: text;
+}
+
+.logo {
+  font-family: logo;
+}
+
+.logoImg{
+  height: 50px;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.long{
+  min-height: 500vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.navbar-logo {
+  font-family: logo;
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-menu button {
+  font-family: text;
+  list-style: none;
+  display: flex;
+  margin-right: 25px;
+  padding: 15px;
+  background-color: white;
+  color:rgb(68, 194, 195);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+}
+
+.navbar-menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu ul li a:hover {
+  color: #ddd;
+}
