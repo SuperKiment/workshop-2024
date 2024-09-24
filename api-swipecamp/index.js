@@ -8,10 +8,13 @@ import path from "path";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import createPayload from "./fonctions/payload.js";
 import jwt from "jsonwebtoken";
+import cors from "cors"
 
 // Configurer l'application Express
 const app = express();
+app.use(cors()); // Middleware pour parser les requêtes en JSON
 app.use(express.json()); // Middleware pour parser les requêtes en JSON
+
 //app.use(express.static("./public"));
 
 // Créer une connexion MySQL avec mysql2
@@ -100,9 +103,9 @@ app.post("/register", async (req, res) => {
 
 // Connexion d'un utilisateur
 app.post("/login", async (req, res) => {
+  console.log("request login : ", req.body);
   const { mail, password } = req.body;
 
-  console.log("request login : ", req.body);
 
   try {
     const [result] = await db.execute("SELECT * FROM Users WHERE mail = ?", [
