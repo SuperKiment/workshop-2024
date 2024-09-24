@@ -118,11 +118,22 @@ INSERT INTO Grade (name) VALUES
 ('Junior'), 
 ('Senior');
 
-INSERT INTO Campus (name, city) VALUES 
-('North Campus', 'New York'), 
-('South Campus', 'Los Angeles'), 
-('East Campus', 'Miami'), 
-('West Campus', 'San Francisco');
+INSERT INTO `Campus` (`idCampus`, `name`, `city`) VALUES
+(1, 'PARIS', 'PARIS'),
+(2, 'ANGER', 'ANGER'),
+(3, 'ARRAS', 'ARRAS'),
+(4, 'AUXERRE', 'AUXERRE'),
+(5, 'BORDEAUX', 'BORDEAUX'),
+(6, 'CHARTRES', 'CHARTRES'),
+(7, 'GRENOBLE', 'GRENOBLE'),
+(8, 'LILLE', 'LILLE'),
+(9, 'LYON', 'LYON'),
+(10, 'MONTPELLIER', 'MONTPELLIER'),
+(11, 'NANTES', 'NANTES'),
+(12, 'REIMS', 'REIMS'),
+(13, 'RENNES', 'RENNES'),
+(14, 'SAINT-ETIENNE', 'SAINT-ETIENNE'),
+(15, 'TOULOUSE', 'TOULOUSE');
 
 INSERT INTO Users (mail, lastName, firstName, isAdmin, idGrade, idCampus) VALUES
 ('john.doe@example.com', 'Doe', 'John', 0, 1, 1), 
