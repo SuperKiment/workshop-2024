@@ -1,5 +1,3 @@
-// src/pages/Home.js
-import { Link } from "react-router-dom";
 import DevTools from "../components/DevTools";
 import "../style/style.css";
 import logo from "../img/Hippocampe.png";
@@ -8,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useId, useState, useEffect } from "react";
 import { useUserContext } from "../context/UserContext";
 import AddCommentScreen from "../screens/AddCommentScreen"; // Importer le nouveau screen
+import { bddURL } from "../config";
+import { useUserContext } from "../context/UserContext";
 
 function Home() {
   const navigate = useNavigate();
@@ -15,12 +15,13 @@ function Home() {
   const [campus, setCampus] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useUserContext();
 
   const getCampus = async () => {
     try {
-      const response = await fetch("https://s4-8096.nuage-peda.fr/campus");
+      const response = await fetch(bddURL + "campus");
       if (!response.ok) {
-        throw new Error('Erreur réseau');
+        throw new Error("Erreur réseau");
       }
       const data = await response.json();
       setCampus(data);
@@ -46,7 +47,23 @@ function Home() {
           </a>
         </div>
         <div className="navbar-menu">
-          <button>Mon espace</button>
+          {user ? (
+            <button
+              onClick={() => {
+                navigate("profil");
+              }}
+            >
+              {"Bonjour, " + user.firstName}
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("login");
+              }}
+            >
+              Mon Espace
+            </button>
+          )}
         </div>
       </nav>
       <div className="container">
