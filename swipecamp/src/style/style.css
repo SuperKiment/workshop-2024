@@ -76,7 +76,6 @@
 .long{
   min-height: 500vh;
 }
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -85,21 +84,38 @@
 }
 
 .navbar-logo {
-  font-family: logo;
-  color: white;
+  display: flex; 
+  align-items: center; 
+}
+
+.navbar-logo a {
+  display: flex;
+  align-items: center;
   text-decoration: none;
+}
+
+.navbar-logo img.logoImg {
+  width: 60px; 
+  height: auto;
+  margin-right: 10px; 
+}
+
+.navbar-logo p {
+  margin: 0;
+  font-family: 'logo'; 
+  color: white;
   font-size: 24px;
   font-weight: bold;
 }
 
 .navbar-menu button {
-  font-family: text;
+  font-family: 'text';
   list-style: none;
   display: flex;
   margin-right: 25px;
   padding: 15px;
   background-color: white;
-  color:rgb(68, 194, 195);
+  color: rgb(68, 194, 195);
   border-radius: 10px;
   border: none;
   font-weight: bold;
