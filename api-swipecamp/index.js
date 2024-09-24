@@ -124,7 +124,7 @@ app.put("/users/:id", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [result] = await db.execute(
-      "UPDATE users SET username = ?, password = ? WHERE id = ?",
+      "UPDATE Users SET username = ?, password = ? WHERE id = ?",
       [username, hashedPassword, id]
     );
 
