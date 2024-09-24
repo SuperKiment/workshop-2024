@@ -1,0 +1,11 @@
+Register :
+
+{
+  "mail":"test@test.com",
+  "lastName":"test",
+  "firstName":"test",
+  "password":"coucou",
+  "isAdmin":"0",
+  "idGrade":"1",
+  "idCampus":"1" 
+}
