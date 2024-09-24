@@ -1,10 +1,13 @@
+// src/pages/Home.js
 import { Link } from "react-router-dom";
 import DevTools from "../components/DevTools";
 import "../style/style.css";
 import logo from "../img/Hippocampe.png";
 import flyer from "../img/SwipeOCamp.png";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useId, useState, useEffect } from "react";
+import { useUserContext } from "../context/UserContext";
+import AddCommentScreen from "../screens/AddCommentScreen"; // Importer le nouveau screen
 
 function Home() {
   const navigate = useNavigate();
@@ -52,7 +55,6 @@ function Home() {
             Découvre <em className="underline">toute ​l’actualité</em> de ton
             ​campus !
           </h1>
-          {/* <button onClick={() => navigate('/campus')}>Je choisis mon campus</button> */}
           <h2>Je choisis mon campus :</h2>
           <select id={campusSelectId} name="selectedCampus">
             {loading ? (
@@ -68,6 +70,7 @@ function Home() {
             )}
           </select>
         </div>
+        {/* <AddCommentScreen videoId={1} /> */}
         <div className="twoColumns">
           <img src={flyer} alt="flyer" className="flyer" />
         </div>

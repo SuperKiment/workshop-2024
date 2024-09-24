@@ -58,9 +58,11 @@ CREATE TABLE `Comment` (
   `idComment` INT(11) NOT NULL AUTO_INCREMENT,
   `content` TEXT DEFAULT NULL,
   `idVideo` INT(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
   PRIMARY KEY (`idComment`),
   KEY `idVideo` (`idVideo`),
-  CONSTRAINT `Comment_ibfk_1` FOREIGN KEY (`idVideo`) REFERENCES `Video` (`idVideo`)
+  CONSTRAINT `Comment_ibfk_1` FOREIGN KEY (`idVideo`) REFERENCES `Video` (`idVideo`),
+  CONSTRAINT `Comment_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `Users` (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -151,9 +153,6 @@ INSERT INTO Video (content, isGlobal, isAdmin, idCampus, idUser, attachement) VA
 ('Campus Tour Video', 1, 0, 1, 1, 'tour.mp4'),
 ('Admin Welcome Speech', 1, 1, 2, 3, 'welcome.mp4');
 
-INSERT INTO Comment (content, idVideo) VALUES
-('Great video, very informative!', 1),
-('This is helpful for new students.', 1);
 
 INSERT INTO Complaint (content, isGlobal, idCategoryComplaint, idUser) VALUES
 ('The classroom is too cold.', 0, 1, 1),
