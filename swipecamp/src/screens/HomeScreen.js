@@ -3,8 +3,8 @@ import DevTools from "../components/DevTools";
 import "../style/style.css";
 import logo from "../img/Hippocampe.png";
 import flyer from "../img/SwipeOCamp.png";
-import { useNavigate, useState, useEffect  } from "react-router-dom";
-import { useId } from "react";
+import { useNavigate  } from "react-router-dom";
+import { useId, useState, useEffect } from "react";
 
 function Home() {
   const navigate = useNavigate();
