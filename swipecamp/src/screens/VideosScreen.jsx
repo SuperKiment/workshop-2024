@@ -13,7 +13,7 @@ function Videos() {
 
   return (
     <div className="App back4">
-      <DevTools />
+      {/* <DevTools /> */}
 
       <nav className="navbar">
         <div className="navbar-logo">

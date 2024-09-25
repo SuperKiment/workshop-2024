@@ -69,6 +69,11 @@
   font-size: 20px;
 }
 
+.back1 p {
+  color: white;
+  font-family: text;
+}
+
 .back1 button {
   font-family: 'text';
   list-style: none;

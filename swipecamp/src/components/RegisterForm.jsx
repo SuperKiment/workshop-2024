@@ -85,6 +85,9 @@ const RegisterForm = () => {
         <button type="submit">Créer le compte</button>
       </form>
       {successMessage && <p>{successMessage}</p>}
+      <a href="/login">
+                <p className="underline">Déjà inscrit ? Se connecter</p>
+              </a>
     </div>
   );
 };
