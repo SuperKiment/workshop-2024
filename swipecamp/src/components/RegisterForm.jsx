@@ -183,7 +183,7 @@ const RegisterForm = ({ selectedCampusId }) => {
       </form>
 
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      {successMessage && <p>{successMessage}</p>}
+      {/* {successMessage && <p>{successMessage}</p>} */}
 
       <a href="/login">
         <p className="underline pBack2">Déjà inscrit ? Se connecter</p>
