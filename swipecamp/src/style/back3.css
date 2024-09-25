@@ -1,0 +1,143 @@
+@font-face {
+    font-family: logo;
+    src: url(../font/Barbra-Regular.otf);
+}
+
+@font-face {
+    font-family: slogan;
+    src: url(../font/Simonetta-Regular.ttf);
+}
+
+@font-face {
+    font-family: text;
+    src: url(../font/Helvetica.ttf);
+}
+
+.back3 {
+    background: rgb(214, 132, 69);
+    background: linear-gradient(90deg, rgba(214, 132, 69, 1) 35%, rgba(245, 229, 215, 1) 100%);
+  }
+
+.navbarBack3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar-logoBack3 {
+    display: flex;
+    align-items: center;
+    font-family: 'logo';
+}
+
+.navbar-logoBack3 a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-logoBack3 img.logoImg {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar-logoBack3 p {
+    margin: 0;
+    font-family: 'logo';
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-menuBack3 button {
+    font-family: 'text';
+    list-style: none;
+    display: flex;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(214, 132, 69);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+}
+
+.navbar-menuBack3 button:hover {
+    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+}
+
+.navbar-menuBack3 ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-menuBack3 ul li a:hover {
+    color: #ddd;
+}
+
+
+
+.back3 h1 {
+    color: white;
+    font-family: text;
+    font-size: 50px;
+    margin-bottom: 50px;
+    /* padding: 50px; */
+    font-weight: bold;
+}
+
+
+.back3 h2 {
+    color: white;
+    font-family: text;
+    font-size: 25px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.back3 select {
+    font-family: 'text';
+    list-style: none;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(214, 132, 69);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.pBack3 {
+    color: white;
+    font-family: text;
+    font-weight: bold;
+}
+
+.inputBack3{
+    color: rgb(214, 132, 69) !important; 
+}
+
+.back3 button, input{
+    font-family: 'text';
+    list-style: none;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(214, 132, 69);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.back3 button:hover {
+    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+}
