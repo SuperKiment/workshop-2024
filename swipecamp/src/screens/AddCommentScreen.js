@@ -1,6 +1,6 @@
-// src/screens/AddCommentScreen.js
 import React, { useState } from 'react';
 import { useUserContext } from "../context/UserContext";
+import { bddURL } from "../config";
 
 const AddCommentScreen = ({ videoId }) => {
   const { user } = useUserContext();
@@ -10,7 +10,7 @@ const AddCommentScreen = ({ videoId }) => {
 
   const addComment = async (idVideo, commentContent, userId, userToken) => {
     try {
-      const response = await fetch(`https://s4-8096.nuage-peda.fr/videos/${idVideo}/comments`, {
+      const response = await fetch(`${bddURL}/videos/${idVideo}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

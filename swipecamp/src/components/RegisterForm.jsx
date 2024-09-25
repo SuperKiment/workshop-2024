@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { bddURL } from "../config";
 
 const RegisterForm = () => {
   const [mail, setMail] = useState("");
@@ -13,7 +14,7 @@ const RegisterForm = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://s4-8096.nuage-peda.fr/register", {
+      const response = await fetch(`${bddURL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
