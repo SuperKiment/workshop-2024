@@ -8,7 +8,9 @@ import path from "path";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import createPayload from "./fonctions/payload.js";
 import jwt from "jsonwebtoken";
-import cors from "cors"
+import cors from "cors";
+import multer from "multer";
+import fs from "fs";
 
 // Configurer l'application Express
 const app = express();
@@ -32,6 +34,45 @@ const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: "secret_key", // Remplace par ta clé secrète
 };
+
+if (!fs.existsSync("./uploads")) {
+  fs.mkdirSync("./uploads");
+}
+
+// Configure Multer pour stocker les fichiers dans un dossier 'uploads'
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Définit le dossier où les fichiers seront stockés
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    // Garde le nom original du fichier
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+// Filtrer les fichiers pour n'accepter que les vidéos
+const fileFilter = (req, file, cb) => {
+  const filetypes = /mp4|mkv|avi|mov/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error("Seules les vidéos sont autorisées !"));
+  }
+};
+
+// Initialise multer avec le stockage et le filtre
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: { fileSize: 100000000 }, // Limite de taille (100MB ici)
+});
 
 // Configurer Passport avec la stratégie locale
 passport.use(
@@ -74,6 +115,15 @@ passport.deserializeUser(async (id, done) => {
 // Middleware pour Passport
 app.use(passport.initialize());
 
+// Endpoint pour gérer l'upload de la vidéo
+app.post("/upload", upload.single("video"), (req, res) => {
+  try {
+    res.send("Vidéo uploadée avec succès !");
+  } catch (err) {
+    res.status(400).send("Erreur lors de l'upload de la vidéo.");
+  }
+});
+
 // Routes
 // Inscription d'un utilisateur
 app.post("/register", async (req, res) => {
@@ -105,7 +155,6 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   console.log("request login : ", req.body);
   const { mail, password } = req.body;
-
 
   try {
     const [result] = await db.execute("SELECT * FROM Users WHERE mail = ?", [
