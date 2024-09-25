@@ -310,6 +310,19 @@ app.get("/campus", async (req, res) => {
   }
 });
 
+// Route pour récupérer toutes les catégories de plainte
+app.get("/complaintCategories", async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM CategoryComplaint");
+    res.json(rows);
+  } catch (err) {
+    console.error("Erreur lors de la récupération des catégories :", err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des catégories" });
+  }
+});
+
 // Route pour ajouter un commentaire à une vidéo
 app.post("/videos/:idVideo/comments", async (req, res) => {
   // console.log("acouphene");
@@ -339,6 +352,72 @@ app.post("/videos/:idVideo/comments", async (req, res) => {
     res.status(500).json({ error: "Erreur lors de l'ajout du commentaire" });
   }
 });
+
+// Route pour envoyer un message 
+app.post("/messages", async (req, res) => {
+  const { content, idUserSender, idUserReceiver } = req.body; 
+  console.log('coucou')
+  console.log(content, idUserSender, idUserReceiver)
+
+  try {
+    const [result] = await db.execute(
+      "INSERT INTO Message (content, dateSended, idUserSender, idUserReceiver) VALUES (?, NOW(), ?, ?)",
+      [content, idUserSender, idUserReceiver]
+    );
+
+    console.log("Message ajouté avec succès, ID du message :", result.insertId);
+    res.status(201).json({ message: "Message ajouté avec succès", id: result.insertId });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du message :", error);
+    res.status(500).json({ error: "Erreur lors de l'ajout du message" });
+  }
+});
+
+//Récupérer toutes les personnes avec qui quelqu'un a eu une conv
+app.get("/users/:idUser/messages/contacts", async (req, res) => {
+  const { idUser } = req.params;
+  
+    try {
+    const [contacts] = await db.execute(
+      `SELECT DISTINCT u.idUser, u.firstName, u.lastName 
+      FROM Message m JOIN Users u 
+      ON (m.idUserSender = u.idUser OR m.idUserReceiver = u.idUser) 
+      WHERE (m.idUserSender = ? OR m.idUserReceiver = ?) AND u.idUser != ?;`,
+      [idUser, idUser, idUser]
+    );
+
+    res.status(200).json(contacts);
+  } catch (error) {
+    res.status(500).json({ error: "Erreur lors de la récupération des contacts" });
+  }
+});
+
+
+
+// Route pour envoyer une plainte
+app.post("/complaint", async (req, res) => {
+  // console.log("acouphene");
+  const { content, isGlobal, idCategoryComplaint, idUser } = req.body; // Récupérer l'ID utilisateur du corps de la requête
+
+  // console.log("Début de l'ajout du commentaire :");
+  // console.log("ID de la vidéo :", idVideo);
+  // console.log("Contenu :", content);
+  // console.log("ID de l'utilisateur :", userId);
+
+  try {
+    const [result] = await db.execute(
+      "INSERT INTO `Complaint`(`content`, `isGlobal`, `idCategoryComplaint`, `idUser`) VALUES (?, ?, ?, ?)",
+      [content, isGlobal, idCategoryComplaint, idUser]
+    );
+
+    console.log("Plainte ajoutée avec succès, ID du commentaire :", result.insertId);
+    res.status(201).json({ message: "Plainte ajoutée avec succès", id: result.insertId });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de la plainte :", error);
+    res.status(500).json({ error: "Erreur lors de l'ajout de la plainte" });
+  }
+});
+
 
 //Récupérer tous les commentaires d'une vidéo
 app.get("/videos/:idVideo/comments", async (req, res) => {
