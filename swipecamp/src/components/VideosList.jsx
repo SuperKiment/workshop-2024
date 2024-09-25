@@ -6,49 +6,81 @@ import CommentsList from "./CommentsList";
 
 const VideosList = () => {
   const [videos, setVideos] = useState([]);
+  const [videosToShow, setVideosToShow] = useState([]);
   const { height } = useWindowDimensions();
   const { user } = useUserContext();
   const videoRefs = useRef([]); // Refs pour toutes les vidéos
   const [currentVideo, setCurrentVideo] = useState(0); // Vidéo actuelle visible
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    getMoreVideos();
+  }, []);
 
+  const scrollToVideo = (index) => {
+    for (let video of videoRefs.current) {
+      //   if (!video.paused) video.pause();
+    }
+
+    if (videoRefs.current[index]) {
+      videoRefs.current[index].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      //   videoRefs.current[index].play();
+      setCurrentVideo(index);
+    }
+  };
+
+  const getMoreVideos = async () => {
     try {
-      fetch(bddURL + "videos/" + storedUser.idCampus).then(async (response) => {
+      fetch(
+        bddURL + "videos/" + JSON.parse(localStorage.getItem("user")).idCampus
+      ).then(async (response) => {
         response.json().then(async (data) => {
-          setVideos(data);
+          setVideos(...videos, data);
+          setVideosToShow(...videosToShow, [data[0], data[1]]);
           console.log("Vidéos :", data.length);
         });
       });
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  };
 
-  const scrollToVideo = (index) => {
-    for (let video of videoRefs.current) {
-      if (!video.paused) video.pause();
+  const addVideoAtEnd = async () => {
+    console.log("length :", videos.length, videosToShow.length);
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
     }
 
-    if (videoRefs.current[index]) {
-      videoRefs.current[index].scrollIntoView({
-        behavior: "smooth",
-        block: "center", // Scroll jusqu'au centre
-      });
-      videoRefs.current[index].play();
-      setCurrentVideo(index);
-    }
+    let videoToAdd =
+      videos[
+        videos.length > videosToShow.length
+          ? videosToShow.length - 1
+          : getRandomInt(videos.length)
+      ];
+    console.log(videos);
+
+    console.log(videoToAdd);
+
+    console.log("added video", videoToAdd.attachement);
+
+    setVideosToShow([...videosToShow, videoToAdd]);
   };
 
   const handleNext = () => {
-    const nextVideo = currentVideo + 1 < videos.length ? currentVideo + 1 : 0; // Boucle à la première vidéo si c'est la dernière
+    const nextVideo = currentVideo + 1;
+
+    if (nextVideo + 2 > videosToShow.length) {
+      addVideoAtEnd();
+    }
     scrollToVideo(nextVideo);
   };
 
   const handlePrev = () => {
     const prevVideo =
-      currentVideo - 1 >= 0 ? currentVideo - 1 : videos.length - 1; // Boucle à la dernière vidéo si c'est la première
+      currentVideo - 1 >= 0 ? currentVideo - 1 : videos.length - 1;
     scrollToVideo(prevVideo);
   };
 
@@ -116,7 +148,7 @@ const VideosList = () => {
   return (
     <div>
       <div>
-        {videos.map((video, index) => {
+        {videosToShow.map((video, index) => {
           return <OneVideo index={index} video={video} key={index} />;
         })}
       </div>
