@@ -1,11 +1,12 @@
 import DevTools from "../components/DevTools";
 import "../style/style.css";
+import "../style/back1.css";
 import logo from "../img/Hippocampe.png";
 import flyer from "../img/SwipeOCamp.png";
 import { useNavigate } from "react-router-dom";
-import { useId, useState, useEffect } from "react";
+import { useId, useState, useEffect, props } from "react";
 import { useUserContext } from "../context/UserContext";
-import AddCommentScreen from "../screens/AddCommentScreen"; // Importer le nouveau screen
+import AddCommentScreen from "../screens/AddCommentScreen"; 
 import { bddURL } from "../config";
 import AddLike from "../components/AddLike";
 import CommentsList from "../components/CommentsList";
@@ -13,6 +14,7 @@ import CommentsList from "../components/CommentsList";
 function Home() {
   const navigate = useNavigate();
   const campusSelectId = useId();
+  const [selectedCampus, setSelectedCampus] = useState("PARIS");
   const [campus, setCampus] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,21 +35,25 @@ function Home() {
     }
   };
 
+  const handleCampusChange = (e) => {
+    setSelectedCampus(e.target.value);
+  };
+
   useEffect(() => {
     getCampus();
   }, []);
 
   return (
-    <div className="App back1">
+    <div className="App back1 long">
       {/* <DevTools /> */}
-      <nav className="navbar">
-        <div className="navbar-logo">
+      <nav className="navbarBack1">
+        <div className="navbar-logoBack1">
           <a href="/">
             <img src={logo} alt="Logo" className="logoImg" />
             <p>SWIPE O'CAMP</p>
           </a>
         </div>
-        <div className="navbar-menu">
+        <div className="navbar-menuBack1">
           {user ? (
             <button
               onClick={() => {
@@ -75,21 +81,26 @@ function Home() {
           </h1>
           {user ? (
             <>
-            <div>
-              <button
-                onClick={() => {
-                  navigate("/videos");
-                }}
-                style={{ margin: "10px" }}
-              >
-                Accéder au feed !
-              </button>
-            </div>
+              <div>
+                <button
+                  onClick={() => {
+                    navigate("/videos");
+                  }}
+                  style={{ margin: "10px" }}
+                >
+                  Accéder au feed !
+                </button>
+              </div>
             </>
           ) : (
             <>
               <h2>Je choisis mon campus :</h2>
-              <select id={campusSelectId} name="selectedCampus">
+              <select
+                id="selectedCampus"
+                name="selectedCampus"
+                value={selectedCampus}
+                onChange={handleCampusChange}
+              >
                 {loading ? (
                   <option>Chargement des campus...</option>
                 ) : error ? (
@@ -105,13 +116,13 @@ function Home() {
               <h2>Je m'inscris :</h2>
               <button
                 onClick={() => {
-                  navigate("register");
+                  navigate(`/register/${selectedCampus}`);
                 }}
               >
                 S'INSCRIRE
               </button>
               <a href="/login">
-                <p className="underline">Déjà inscrit ? Se connecter</p>
+                <p className="underline pBack1">Déjà inscrit ? Se connecter</p>
               </a>
             </>
           )}

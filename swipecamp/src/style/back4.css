@@ -1,0 +1,149 @@
+@font-face {
+    font-family: logo;
+    src: url(../font/Barbra-Regular.otf);
+}
+
+@font-face {
+    font-family: slogan;
+    src: url(../font/Simonetta-Regular.ttf);
+}
+
+@font-face {
+    font-family: text;
+    src: url(../font/Helvetica.ttf);
+}
+
+.back4 {
+    background: rgb(214, 132, 69);
+    background: linear-gradient(90deg, rgba(214, 132, 69, 1) 35%, rgba(245, 229, 215, 1) 100%);
+  }
+
+.navbarBack4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar-logoBack4 {
+    display: flex;
+    align-items: center;
+    font-family: 'logo';
+}
+
+.navbar-logoBack4 a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-logoBack4 img.logoImg {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar-logoBack4 p {
+    margin: 0;
+    font-family: 'logo';
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-menuBack4 button {
+    font-family: 'text';
+    list-style: none;
+    display: flex;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(214, 132, 69);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+}
+
+.navbar-menuBack4 button:hover {
+    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+}
+
+.navbar-menuBack4 ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-menuBack4 ul li a:hover {
+    color: #ddd;
+}
+
+
+
+.back4 h1 {
+    color: white;
+    font-family: text;
+    font-size: 50px;
+    margin-bottom: 50px;
+    /* padding: 50px; */
+    font-weight: bold;
+}
+
+
+.back4 h2 {
+    color: white;
+    font-family: text;
+    font-size: 25px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.back4 select {
+    font-family: 'text';
+    list-style: none;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(214, 132, 69);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.pBack4 {
+    color: white;
+    font-family: text;
+    font-weight: bold;
+}
+
+.inputBack4{
+    color: rgb(214, 132, 69) !important; 
+}
+
+.back4 button, input{
+    font-family: 'text';
+    list-style: none;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    /* color: rgb(214, 132, 69); */
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.back4 button:hover {
+    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+}
+
+.profil{
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+}

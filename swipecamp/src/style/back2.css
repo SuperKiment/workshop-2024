@@ -1,0 +1,136 @@
+@font-face {
+    font-family: logo;
+    src: url(../font/Barbra-Regular.otf);
+}
+
+@font-face {
+    font-family: slogan;
+    src: url(../font/Simonetta-Regular.ttf);
+}
+
+@font-face {
+    font-family: text;
+    src: url(../font/Helvetica.ttf);
+}
+
+.back2 {
+    background: rgb(228, 241, 237);
+    background: linear-gradient(90deg, rgba(228, 241, 237, 1) 35%, rgba(68, 194, 195, 1) 100%);
+}
+
+.navbarBack2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar-logoBack2 {
+    display: flex;
+    align-items: center;
+    font-family: 'logo';
+}
+
+.navbar-logoBack2 a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-logoBack2 img.logoImg {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar-logoBack2 p {
+    margin: 0;
+    font-family: 'logo';
+    color: rgb(68, 194, 195);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-menuBack2 button {
+    font-family: 'text';
+    list-style: none;
+    display: flex;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(68, 194, 195);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+}
+
+.navbar-menuBack2 button:hover {
+    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+}
+
+.navbar-menuBack2 ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-menuBack2 ul li a:hover {
+    color: #ddd;
+}
+
+
+
+.back2 h1 {
+    color: rgb(68, 194, 195);;
+    font-family: text;
+    font-size: 50px;
+    margin-bottom: 50px;
+    /* padding: 50px; */
+    font-weight: bold;
+}
+
+
+.back2 h2 {
+    color: rgb(68, 194, 195);;
+    font-family: text;
+    font-size: 25px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.back2 select {
+    font-family: 'text';
+    list-style: none;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(68, 194, 195);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.pBack2 {
+    color: rgb(68, 194, 195);;
+    font-family: text;
+}
+
+.back2 button, input{
+    font-family: 'text';
+    list-style: none;
+    margin-right: 25px;
+    padding: 15px;
+    background-color: white;
+    color: rgb(68, 194, 195);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.back2 button:hover {
+    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+}
