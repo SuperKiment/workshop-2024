@@ -183,6 +183,124 @@ app.get("/campus", async (req, res) => {
   }
 });
 
+// Route pour ajouter un commentaire à une vidéo
+app.post("/videos/:idVideo/comments", async (req, res) => {
+  // console.log("acouphene");
+  const { idVideo } = req.params; 
+  const { content, userId } = req.body; // Récupérer l'ID utilisateur du corps de la requête
+
+  // console.log("Début de l'ajout du commentaire :");
+  // console.log("ID de la vidéo :", idVideo);
+  // console.log("Contenu :", content);
+  // console.log("ID de l'utilisateur :", userId);
+
+  try {
+    const [result] = await db.execute(
+      "INSERT INTO Comment (content, idVideo, idUser) VALUES (?, ?, ?)",
+      [content, idVideo, userId]
+    );
+
+    console.log("Commentaire ajouté avec succès, ID du commentaire :", result.insertId);
+    res.status(201).json({ message: "Commentaire ajouté avec succès", id: result.insertId });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du commentaire :", error);
+    res.status(500).json({ error: "Erreur lors de l'ajout du commentaire" });
+  }
+});
+
+//Récupérer tous les commentaires d'une vidéo
+app.get("/videos/:idVideo/comments", async (req, res) => {
+  const { idVideo } = req.params;
+
+  try {
+    const [rows] = await db.execute("SELECT * FROM Comment WHERE idVideo = ?", [idVideo]);
+    res.json(rows);
+  } catch (err) {
+    console.error("Erreur lors de la récupération des commentaires :", err);
+    res.status(500).json({ error: "Erreur lors de la récupération des commentaires" });
+  }
+});
+
+//Pouvoir supprimer un commentaire
+app.delete("/comments/:idComment", async (req, res) => {
+  const { idComment } = req.params;
+
+  try {
+    const [result] = await db.execute("DELETE FROM Comment WHERE idComment = ?", [idComment]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Commentaire non trouvé" });
+    }
+
+    res.status(200).json({ message: "Commentaire supprimé avec succès" });
+  } catch (err) {
+    console.error("Erreur lors de la suppression du commentaire :", err);
+    res.status(500).json({ error: "Erreur lors de la suppression du commentaire" });
+  }
+});
+
+
+
+// Ajoute ou supprime un like
+app.post("/videos/:idVideo/like", async (req, res) => {
+  const { idVideo } = req.params;
+  const { userId } = req.body;
+
+  try {
+    // Vérifie si l'utilisateur a déjà aimé la vidéo
+    const [checkResult] = await db.execute(
+      "SELECT * FROM Likes WHERE idVideo = ? AND idUser = ?",
+      [idVideo, userId]
+    );
+
+    if (checkResult.length > 0) {
+      // Si l'utilisateur a déjà aimé, on supprime le like
+      await db.execute(
+        "DELETE FROM Likes WHERE idVideo = ? AND idUser = ?",
+        [idVideo, userId]
+      );
+      return res.status(200).json({ message: "Like retiré avec succès" });
+    } else {
+      // Sinon, on ajoute le like
+      const [result] = await db.execute(
+        "INSERT INTO Likes (idUser, idVideo) VALUES (?, ?)",
+        [userId, idVideo]
+      );
+      return res.status(201).json({ message: "Like ajouté avec succès", id: result.insertId });
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'ajout ou du retrait du like :", error);
+    res.status(500).json({ error: "Erreur lors de l'ajout ou du retrait du like" });
+  }
+});
+
+
+// Vérifie si un utilisateur a déjà aimé une vidéo
+app.get("/videos/:idVideo/like/check", async (req, res) => {
+  const { idVideo } = req.params;
+  const userId = req.body; 
+
+  try {
+    const [result] = await db.execute(
+      "SELECT * FROM Likes WHERE idVideo = ? AND idUser = ?",
+      [idVideo, userId]
+    );
+
+    if (result.length > 0) {
+      res.status(200).json({ liked: true });
+    } else {
+      res.status(200).json({ liked: false });
+    }
+  } catch (error) {
+    console.error("Erreur lors de la vérification du like :", error);
+    res.status(500).json({ error: "Erreur lors de la vérification du like" });
+  }
+});
+
+
+
+
+
 /*
 // Route pour mettre à jour un utilisateur
 app.put("/users/:id", async (req, res) => {
