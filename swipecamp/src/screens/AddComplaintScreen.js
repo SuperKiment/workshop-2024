@@ -1,32 +1,32 @@
-import React from "react";
-import RegisterForm from "../components/RegisterForm"; 
-import logo from "../img/Hippocampe.png";
+import React, { useEffect, useState } from "react";
+import AddComplaint from "../components/AddComplaintForm";
 import "../style/style.css";
-import "../style/back2.css";
+import "../style/back1.css";
+import logo from "../img/Hippocampe.png";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
-import {useLocation} from 'react-router-dom';
 
-const Register = () => {
+const ComplaintsScreen = () => {
+  const [categories, setCategories] = useState([]);
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { user } = useUserContext();
   const navigate = useNavigate();
-  const location = useLocation();
-  const selectedCampusId = location.pathname.split("/").pop();
 
   return (
-    <div className="App back2 long">
-      <nav className="navbarBack2">
-        <div className="navbar-logoBack2">
+    <div className="App back3 long">
+      <nav className="navbarBack3">
+        <div className="navbar-logoBack3">
           <a href="/">
             <img src={logo} alt="Logo" className="logoImg" />
             <p>SWIPE O'CAMP</p>
           </a>
         </div>
-        <div className="navbar-menuBack2">
+        <div className="navbar-menuBack3">
           {user ? (
             <button
               onClick={() => {
-                navigate("/profil");
+                navigate("profil");
               }}
             >
               {"Bonjour, " + user.firstName}
@@ -34,7 +34,7 @@ const Register = () => {
           ) : (
             <button
               onClick={() => {
-                navigate("/login");
+                navigate("login");
               }}
             >
               Mon Espace
@@ -42,10 +42,10 @@ const Register = () => {
           )}
         </div>
       </nav>
-      <h1>Inscription</h1>
-      <RegisterForm selectedCampusId={selectedCampusId}/>
+      <h1>Soumettre une plainte</h1>
+      <AddComplaint categories={categories} />
     </div>
   );
 };
 
-export default Register;
+export default ComplaintsScreen;

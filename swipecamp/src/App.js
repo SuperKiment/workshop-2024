@@ -7,6 +7,11 @@ import Login from "./screens/LoginScreen";
 import { UserProvider } from "./context/UserContext";
 import Register from "./screens/RegisterScreen";
 import Profil from "./screens/ProfilScreen";
+import Videos from "./screens/VideosScreen";
+import AddComplaintScreen from "./screens/AddComplaintScreen";
+import Need from "./screens/NeedScreen";
+import MessageScreen from "./screens/SendMessageScreen";
+import MessageContacts from "./screens/MessageContacts";
 
 function App() {
   return (
@@ -15,9 +20,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/campus" element={<Campus />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register/:campusId" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profil" element={<Profil />} />
+          <Route path="/videos" element={<Videos />} />
+          <Route path="/complaint" element={<AddComplaintScreen />} />
+          <Route path="/need" element={<Need />} />
+          <Route path="/sendMessage" element={<MessageScreen />} />
+          <Route path="/MessageContacts" element={<MessageContacts />} />
         </Routes>
       </Router>
     </UserProvider>

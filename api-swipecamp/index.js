@@ -74,6 +74,8 @@ const upload = multer({
   limits: { fileSize: 100000000 }, // Limite de taille (100MB ici)
 });
 
+app.use("/uploads", express.static("uploads"));
+
 // Configurer Passport avec la stratégie locale
 passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
@@ -116,13 +118,89 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize());
 
 // Endpoint pour gérer l'upload de la vidéo
-app.post("/upload", upload.single("video"), (req, res) => {
+app.post("/upload", upload.single("video"), async (req, res) => {
+  const { content, isGlobal, idUser } = req.body;
+
+  //console.log(req.body);
+
+  const [rows] = await db.execute("SELECT * FROM Users WHERE idUser = ?", [
+    idUser,
+  ]);
+  if (rows.length == 0) return res.status(400).send("Utilisateur non trouvé");
+
+  const user = rows[0];
+
+  const { isAdmin, idCampus } = user;
+
+  const attachement = req.file.filename;
+
+  console.log(
+    "Vidéo upload :",
+    content,
+    isGlobal,
+    isAdmin,
+    idCampus,
+    idUser,
+    attachement
+  );
+
   try {
+    const [result] = await db.execute(
+      "INSERT INTO `Video` (`idVideo`, `content`, `isGlobal`, `isAdmin`, `idCampus`, `idUser`, `attachement`) VALUES (NULL, ?, ?, ?, ?, ?, ?);",
+      [content, isGlobal, isAdmin, idCampus, idUser, attachement]
+    );
+
     res.send("Vidéo uploadée avec succès !");
   } catch (err) {
+    console.log(err);
     res.status(400).send("Erreur lors de l'upload de la vidéo.");
   }
 });
+
+app.get("/videos", (req, res) => {
+  const directoryPath = path.resolve() + "/uploads";
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Erreur lors de la lecture des vidéos",
+      });
+    }
+    const videos = files.map((file) => `/uploads/${file}`);
+    res.json({ success: true, videos });
+  });
+});
+
+app.get("/videos/campus/:idCampus", async (req, res) => {
+  const { idCampus } = req.params;
+
+  const [result] = await db.execute(
+    "SELECT * FROM Video WHERE idCampus = ?",
+    [idCampus]
+  );
+
+  res.json(result)
+});
+
+app.get("/videos/reseau/", async (req, res) => {
+
+  const [result] = await db.execute(
+    "SELECT * FROM Video WHERE isGlobal = 1",
+  );
+
+  res.json(result)
+});
+
+app.get("/videos/admin/", async (req, res) => {
+
+  const [result] = await db.execute(
+    "SELECT * FROM Video WHERE isAdmin = 1",
+  );
+
+  res.json(result)
+});
+
+
 
 // Routes
 // Inscription d'un utilisateur
@@ -235,7 +313,7 @@ app.get("/campus", async (req, res) => {
 // Route pour ajouter un commentaire à une vidéo
 app.post("/videos/:idVideo/comments", async (req, res) => {
   // console.log("acouphene");
-  const { idVideo } = req.params; 
+  const { idVideo } = req.params;
   const { content, userId } = req.body; // Récupérer l'ID utilisateur du corps de la requête
 
   // console.log("Début de l'ajout du commentaire :");
@@ -249,8 +327,13 @@ app.post("/videos/:idVideo/comments", async (req, res) => {
       [content, idVideo, userId]
     );
 
-    console.log("Commentaire ajouté avec succès, ID du commentaire :", result.insertId);
-    res.status(201).json({ message: "Commentaire ajouté avec succès", id: result.insertId });
+    console.log(
+      "Commentaire ajouté avec succès, ID du commentaire :",
+      result.insertId
+    );
+    res
+      .status(201)
+      .json({ message: "Commentaire ajouté avec succès", id: result.insertId });
   } catch (error) {
     console.error("Erreur lors de l'ajout du commentaire :", error);
     res.status(500).json({ error: "Erreur lors de l'ajout du commentaire" });
@@ -262,11 +345,15 @@ app.get("/videos/:idVideo/comments", async (req, res) => {
   const { idVideo } = req.params;
 
   try {
-    const [rows] = await db.execute("SELECT * FROM Comment WHERE idVideo = ?", [idVideo]);
+    const [rows] = await db.execute("SELECT * FROM Comment WHERE idVideo = ?", [
+      idVideo,
+    ]);
     res.json(rows);
   } catch (err) {
     console.error("Erreur lors de la récupération des commentaires :", err);
-    res.status(500).json({ error: "Erreur lors de la récupération des commentaires" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des commentaires" });
   }
 });
 
@@ -275,7 +362,10 @@ app.delete("/comments/:idComment", async (req, res) => {
   const { idComment } = req.params;
 
   try {
-    const [result] = await db.execute("DELETE FROM Comment WHERE idComment = ?", [idComment]);
+    const [result] = await db.execute(
+      "DELETE FROM Comment WHERE idComment = ?",
+      [idComment]
+    );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Commentaire non trouvé" });
@@ -284,11 +374,11 @@ app.delete("/comments/:idComment", async (req, res) => {
     res.status(200).json({ message: "Commentaire supprimé avec succès" });
   } catch (err) {
     console.error("Erreur lors de la suppression du commentaire :", err);
-    res.status(500).json({ error: "Erreur lors de la suppression du commentaire" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la suppression du commentaire" });
   }
 });
-
-
 
 // Ajoute ou supprime un like
 app.post("/videos/:idVideo/like", async (req, res) => {
@@ -304,10 +394,10 @@ app.post("/videos/:idVideo/like", async (req, res) => {
 
     if (checkResult.length > 0) {
       // Si l'utilisateur a déjà aimé, on supprime le like
-      await db.execute(
-        "DELETE FROM Likes WHERE idVideo = ? AND idUser = ?",
-        [idVideo, userId]
-      );
+      await db.execute("DELETE FROM Likes WHERE idVideo = ? AND idUser = ?", [
+        idVideo,
+        userId,
+      ]);
       return res.status(200).json({ message: "Like retiré avec succès" });
     } else {
       // Sinon, on ajoute le like
@@ -315,19 +405,22 @@ app.post("/videos/:idVideo/like", async (req, res) => {
         "INSERT INTO Likes (idUser, idVideo) VALUES (?, ?)",
         [userId, idVideo]
       );
-      return res.status(201).json({ message: "Like ajouté avec succès", id: result.insertId });
+      return res
+        .status(201)
+        .json({ message: "Like ajouté avec succès", id: result.insertId });
     }
   } catch (error) {
     console.error("Erreur lors de l'ajout ou du retrait du like :", error);
-    res.status(500).json({ error: "Erreur lors de l'ajout ou du retrait du like" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de l'ajout ou du retrait du like" });
   }
 });
-
 
 // Vérifie si un utilisateur a déjà aimé une vidéo
 app.get("/videos/:idVideo/like/check", async (req, res) => {
   const { idVideo } = req.params;
-  const userId = req.body; 
+  const userId = req.body;
 
   try {
     const [result] = await db.execute(
@@ -345,10 +438,6 @@ app.get("/videos/:idVideo/like/check", async (req, res) => {
     res.status(500).json({ error: "Erreur lors de la vérification du like" });
   }
 });
-
-
-
-
 
 /*
 // Route pour mettre à jour un utilisateur
