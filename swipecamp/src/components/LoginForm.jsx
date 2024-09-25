@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { bddURL } from "../config";
 import { useUserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -39,9 +41,8 @@ const LoginForm = () => {
 
       const data = await response.json();
       console.log("Login successful:", data);
-      // Traitez les données ici, par exemple, en stockant le token d'authentification
-
       setUser({ ...data.user, token: data.token });
+      navigate("/");
     } catch (err) {
       setError(err.message);
     } finally {
