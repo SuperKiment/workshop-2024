@@ -74,6 +74,8 @@ const upload = multer({
   limits: { fileSize: 100000000 }, // Limite de taille (100MB ici)
 });
 
+app.use("/uploads", express.static("uploads"));
+
 // Configurer Passport avec la stratégie locale
 passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
@@ -148,13 +150,57 @@ app.post("/upload", upload.single("video"), async (req, res) => {
       [content, isGlobal, isAdmin, idCampus, idUser, attachement]
     );
 
-    console.log(result);
     res.send("Vidéo uploadée avec succès !");
   } catch (err) {
     console.log(err);
     res.status(400).send("Erreur lors de l'upload de la vidéo.");
   }
 });
+
+app.get("/videos", (req, res) => {
+  const directoryPath = path.resolve() + "/uploads";
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Erreur lors de la lecture des vidéos",
+      });
+    }
+    const videos = files.map((file) => `/uploads/${file}`);
+    res.json({ success: true, videos });
+  });
+});
+
+app.get("/videos/campus/:idCampus", async (req, res) => {
+  const { idCampus } = req.params;
+
+  const [result] = await db.execute(
+    "SELECT * FROM Video WHERE idCampus = ?",
+    [idCampus]
+  );
+
+  res.json(result)
+});
+
+app.get("/videos/reseau/", async (req, res) => {
+
+  const [result] = await db.execute(
+    "SELECT * FROM Video WHERE isGlobal = 1",
+  );
+
+  res.json(result)
+});
+
+app.get("/videos/admin/", async (req, res) => {
+
+  const [result] = await db.execute(
+    "SELECT * FROM Video WHERE isAdmin = 1",
+  );
+
+  res.json(result)
+});
+
+
 
 // Routes
 // Inscription d'un utilisateur
