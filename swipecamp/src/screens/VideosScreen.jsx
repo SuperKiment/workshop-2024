@@ -1,17 +1,15 @@
 import "../style/style.css";
 import logo from "../img/Hippocampe.png";
-import DevTools from "../components/DevTools";
-import { useUserContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UploadForm from "../components/UploadForm";
 import VideosList from "../components/VideosList";
 import "../style/back3.css";
 
 function Videos() {
-  const { user, logout } = useUserContext();
-  const navigate = useNavigate();
   const [uploadVisible, setUploadVisible] = useState();
+  const [filActualite, setFilActualite] = useState("Admin");
+
+  const fils = ["Campus", "Reseau", "Admin"];
 
   return (
     <div className="App back4">
@@ -30,15 +28,55 @@ function Videos() {
         <div>
           <h1>Vidéos</h1>
 
-          <button
-            onClick={() => {
-              setUploadVisible(!uploadVisible);
-            }}
-          >
-            Upload
-          </button>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <button
+              style={
+                filActualite == "Campus" ? { border: "5px solid grey" } : null
+              }
+              onClick={() => {
+                setFilActualite("Campus");
+              }}
+            >
+              Campus
+            </button>
+            <button
+              onClick={() => {
+                setFilActualite("Reseau");
+              }}
+              style={
+                filActualite == "Reseau" ? { border: "5px solid grey" } : null
+              }
+            >
+              Réseau C&D
+            </button>
+            <button
+              onClick={() => {
+                setFilActualite("Admin");
+              }}
+              style={
+                filActualite == "Admin" ? { border: "5px solid grey" } : null
+              }
+            >
+              Administration
+            </button>
+            <button
+              onClick={() => {
+                setUploadVisible(!uploadVisible);
+              }}
+            >
+              Upload
+            </button>
+          </div>
+
           {uploadVisible && <UploadForm />}
-          <VideosList />
+          {!uploadVisible &&
+            fils.map((fil, index) => {
+              return (
+                filActualite == fil && (
+                  <VideosList key={index} filActualite={fil} />
+                )
+              );
+            })}
         </div>
         <div></div>
       </div>

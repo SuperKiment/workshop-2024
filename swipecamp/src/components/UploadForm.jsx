@@ -1,6 +1,7 @@
 import { bddURL } from "../config";
 import { useState } from "react";
 import { useUserContext } from "../context/UserContext";
+import "../style/back4.css";
 
 const UploadForm = () => {
   const [videoFile, setVideoFile] = useState(null);
@@ -56,7 +57,9 @@ const UploadForm = () => {
       onSubmit={handleSubmit}
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <label htmlFor="desc">Description :</label>
+      <label className="pBack4" htmlFor="desc">
+        Description :
+      </label>
       <input
         type="text"
         name="desc"
@@ -64,7 +67,9 @@ const UploadForm = () => {
         onChange={handleDescriptionChange}
         value={description}
       />
-      <label htmlFor="desc">La vidéo est globale ?</label>
+      <label className="pBack4" htmlFor="desc">
+        La vidéo est globale ?
+      </label>
       <input
         type="checkbox"
         name="isGlobal"
@@ -73,7 +78,9 @@ const UploadForm = () => {
         checked={isGlobal}
       />
 
-      <label htmlFor="file">Vidéo :</label>
+      <label className="pBack4" htmlFor="file">
+        Vidéo :
+      </label>
       <input
         type="file"
         accept="video/*"

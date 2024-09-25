@@ -4,7 +4,7 @@ import { useUserContext } from "../context/UserContext";
 import useWindowDimensions from "./useWindowDimensions";
 import CommentsList from "./CommentsList";
 
-const VideosList = () => {
+const VideosList = ({ filActualite }) => {
   const [videos, setVideos] = useState([]);
   const [videosToShow, setVideosToShow] = useState([]);
   const { height } = useWindowDimensions();
@@ -14,6 +14,7 @@ const VideosList = () => {
 
   useEffect(() => {
     getMoreVideos();
+    console.log(filActualite);
   }, []);
 
   const scrollToVideo = (index) => {
@@ -32,10 +33,22 @@ const VideosList = () => {
   };
 
   const getMoreVideos = async () => {
+    let url = "";
+    const userStored = JSON.parse(localStorage.getItem("user"));
+
+    switch (filActualite) {
+      case "Campus":
+        url = bddURL + "videos/campus/" + userStored.idCampus;
+        break;
+      case "Reseau":
+        url = bddURL + "videos/reseau/";
+        break;
+      case "Admin":
+        url = bddURL + "videos/admin/";
+        break;
+    }
     try {
-      fetch(
-        bddURL + "videos/" + JSON.parse(localStorage.getItem("user")).idCampus
-      ).then(async (response) => {
+      fetch(url).then(async (response) => {
         response.json().then(async (data) => {
           setVideos(...videos, data);
           setVideosToShow(...videosToShow, [data[0], data[1]]);
@@ -106,42 +119,44 @@ const VideosList = () => {
   const OneVideo = ({ index, video }) => {
     const [commentsVisible, setCommentsVisible] = useState(false);
     return (
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <video
-          ref={(el) => (videoRefs.current[index] = el)}
-          width={height / (16 / 9)}
-          height={height}
-          controls
-          style={{ backgroundColor: "black", margin: "20px" }}
-        >
-          <source
-            src={`${bddURL}uploads/${video.attachement}`}
-            type="video/mp4"
-          />
-          Votre navigateur ne supporte pas la balise vidéo.
-        </video>
-        <div>
-          <button
-            onClick={() => {
-              setCommentsVisible(!commentsVisible);
-            }}
+      video && (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <video
+            ref={(el) => (videoRefs.current[index] = el)}
+            width={height / (16 / 9)}
+            height={height}
+            controls
+            style={{ backgroundColor: "black", margin: "20px" }}
           >
-            Commentaires
-          </button>
-
-          {commentsVisible && (
-            <div
-              style={{
-                backgroundColor: "white",
-                borderRadius: "20px",
-                padding: "30px",
+            <source
+              src={`${bddURL}uploads/${video.attachement}`}
+              type="video/mp4"
+            />
+            Votre navigateur ne supporte pas la balise vidéo.
+          </video>
+          <div>
+            <button
+              onClick={() => {
+                setCommentsVisible(!commentsVisible);
               }}
             >
-              <CommentsList videoId={video.idVideo} />
-            </div>
-          )}
+              Commentaires
+            </button>
+
+            {commentsVisible && (
+              <div
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "20px",
+                  padding: "30px",
+                }}
+              >
+                <CommentsList videoId={video.idVideo} />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )
     );
   };
 
