@@ -73,23 +73,48 @@ function Home() {
             Découvre <em className="underline">toute ​l’actualité</em> de ton
             ​campus !
           </h1>
-          <h2>Je choisis mon campus :</h2>
-          <select id={campusSelectId} name="selectedCampus">
-            {loading ? (
-              <option>Chargement des campus...</option>
-            ) : error ? (
-              <option>{error}</option>
-            ) : (
-              campus.map((campusItem) => (
-                <option key={campusItem.idCampus} value={campusItem.name}>
-                  {campusItem.name}
-                </option>
-              ))
-            )}
-          </select>
-          <h2>Je m'inscris :</h2>
-          <button>S'INSCRIRE</button>
-          <p>Déjà inscrit ? Se connecter</p>
+          {user ? (
+            <>
+            <div>
+              <button
+                onClick={() => {
+                  navigate("/videos");
+                }}
+                style={{ margin: "10px" }}
+              >
+                Accéder au feed !
+              </button>
+            </div>
+            </>
+          ) : (
+            <>
+              <h2>Je choisis mon campus :</h2>
+              <select id={campusSelectId} name="selectedCampus">
+                {loading ? (
+                  <option>Chargement des campus...</option>
+                ) : error ? (
+                  <option>{error}</option>
+                ) : (
+                  campus.map((campusItem) => (
+                    <option key={campusItem.idCampus} value={campusItem.name}>
+                      {campusItem.name}
+                    </option>
+                  ))
+                )}
+              </select>
+              <h2>Je m'inscris :</h2>
+              <button
+                onClick={() => {
+                  navigate("register");
+                }}
+              >
+                S'INSCRIRE
+              </button>
+              <a href="/login">
+                <p className="underline">Déjà inscrit ? Se connecter</p>
+              </a>
+            </>
+          )}
         </div>
         {/* <AddCommentScreen videoId={1} /> */}
 
