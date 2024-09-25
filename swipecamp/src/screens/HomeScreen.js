@@ -87,9 +87,24 @@ function Home() {
               ))
             )}
           </select>
-          <h2>Je m'inscris :</h2>
-          <button>S'INSCRIRE</button>
-          <p>Déjà inscrit ? Se connecter</p>
+          {user ? (
+            <div>
+              <button
+                onClick={() => {
+                  navigate("/videos");
+                }}
+                style={{ margin: "10px" }}
+              >
+                Accéder au feed !
+              </button>
+            </div>
+          ) : (
+            <div>
+              <h2>Je m'inscris :</h2>
+              <button>S'INSCRIRE</button>
+              <p>Déjà inscrit ? Se connecter</p>
+            </div>
+          )}
         </div>
         {/* <AddCommentScreen videoId={1} /> */}
 

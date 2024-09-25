@@ -7,6 +7,7 @@ import Login from "./screens/LoginScreen";
 import { UserProvider } from "./context/UserContext";
 import Register from "./screens/RegisterScreen";
 import Profil from "./screens/ProfilScreen";
+import Videos from "./screens/VideosScreen";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profil" element={<Profil />} />
+          <Route path="/videos" element={<Videos />} />
         </Routes>
       </Router>
     </UserProvider>
