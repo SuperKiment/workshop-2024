@@ -5,6 +5,7 @@ import { useUserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UploadForm from "../components/UploadForm";
+import VideosList from "../components/VideosList";
 
 function Videos() {
   const { user, logout } = useUserContext();
@@ -36,6 +37,7 @@ function Videos() {
             Upload
           </button>
           {uploadVisible && <UploadForm />}
+          <VideosList />
         </div>
         <div></div>
       </div>
