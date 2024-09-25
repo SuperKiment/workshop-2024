@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UploadForm from "../components/UploadForm";
 import VideosList from "../components/VideosList";
+import "../style/back3.css";
 
 function Videos() {
   const { user, logout } = useUserContext();
@@ -16,8 +17,8 @@ function Videos() {
     <div className="App back4">
       {/* <DevTools /> */}
 
-      <nav className="navbar">
-        <div className="navbar-logo">
+      <nav className="navbarBack3">
+        <div className="navbar-logoBack3">
           <a href="/">
             <img src={logo} alt="Logo" className="logoImg" />
             <p>SWIPE O'CAMP</p>
