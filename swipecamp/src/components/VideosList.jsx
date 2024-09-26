@@ -3,6 +3,7 @@ import { bddURL } from "../config";
 import { useUserContext } from "../context/UserContext";
 import useWindowDimensions from "./useWindowDimensions";
 import CommentsList from "./CommentsList";
+import { useSwipeable } from "react-swipeable";
 
 const VideosList = ({ filActualite }) => {
   const [videos, setVideos] = useState([]);
@@ -11,6 +12,15 @@ const VideosList = ({ filActualite }) => {
   const { user } = useUserContext();
   const videoRefs = useRef([]); // Refs pour toutes les vidéos
   const [currentVideo, setCurrentVideo] = useState(0); // Vidéo actuelle visible
+
+  // Gestion du swipe
+  const handlers = useSwipeable({
+    onSwipedUp: () => handleNext(),
+    onSwipedDown: () => handlePrev(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true, // Gère les swipes avec la souris également
+    trackTouch: true,  // Priorise les événements tactiles
+  });
 
   useEffect(() => {
     getMoreVideos();
@@ -127,6 +137,8 @@ const VideosList = ({ filActualite }) => {
             height={height}
             controls
             style={{ backgroundColor: "black", margin: "20px" }}
+            autoPlay
+            loop
           >
             <source
               src={`${bddURL}uploads/${video.attachement}`}
@@ -161,7 +173,7 @@ const VideosList = ({ filActualite }) => {
   };
 
   return (
-    <div>
+    <div {...handlers}>
       <div>
         {videosToShow.map((video, index) => {
           return <OneVideo index={index} video={video} key={index} />;

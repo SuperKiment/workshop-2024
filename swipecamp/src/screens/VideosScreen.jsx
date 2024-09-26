@@ -26,46 +26,55 @@ function Videos() {
       <div className="container">
         <div></div>
         <div>
-          <h1>Vidéos</h1>
-
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <button
+            <a
+              className="pBack4"
               style={
-                filActualite == "Campus" ? { border: "5px solid grey" } : null
+                filActualite == "Campus"
+                  ? { flex: "1", borderBottom: "5px solid white" }
+                  : { flex: "1" }
               }
               onClick={() => {
                 setFilActualite("Campus");
               }}
             >
               Campus
-            </button>
-            <button
+            </a>
+            <a
+              className="pBack4"
               onClick={() => {
                 setFilActualite("Reseau");
               }}
               style={
-                filActualite == "Reseau" ? { border: "5px solid grey" } : null
+                filActualite == "Reseau"
+                  ? { flex: "1", borderBottom: "5px solid white" }
+                  : { flex: "1" }
               }
             >
               Réseau C&D
-            </button>
-            <button
+            </a>
+            <a
+              className="pBack4"
               onClick={() => {
                 setFilActualite("Admin");
               }}
               style={
-                filActualite == "Admin" ? { border: "5px solid grey" } : null
+                filActualite == "Admin"
+                  ? { flex: "1", borderBottom: "5px solid white" }
+                  : { flex: "1" }
               }
             >
               Administration
-            </button>
-            <button
+            </a>
+            <a
+              className="pBack4"
+              style={{ flex: "1" }}
               onClick={() => {
                 setUploadVisible(!uploadVisible);
               }}
             >
               Upload
-            </button>
+            </a>
           </div>
 
           {uploadVisible && <UploadForm />}
