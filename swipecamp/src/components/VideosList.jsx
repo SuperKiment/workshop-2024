@@ -85,7 +85,6 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000",
     overflow: "hidden",
     position: "relative",
     top: "40px",

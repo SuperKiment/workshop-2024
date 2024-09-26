@@ -6,7 +6,7 @@ import flyer from "../img/SwipeOCamp.png";
 import { useNavigate } from "react-router-dom";
 import { useId, useState, useEffect, props } from "react";
 import { useUserContext } from "../context/UserContext";
-import AddCommentScreen from "../screens/AddCommentScreen"; 
+import AddCommentScreen from "../screens/AddCommentScreen";
 import { bddURL } from "../config";
 import AddLike from "../components/AddLike";
 import CommentsList from "../components/CommentsList";
@@ -45,6 +45,7 @@ function Home() {
 
   return (
     <div className="App back1 long">
+      <div className="back1-fond"></div>
       {/* <DevTools /> */}
       <nav className="navbarBack1">
         <div className="navbar-logoBack1">

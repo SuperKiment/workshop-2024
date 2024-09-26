@@ -28,22 +28,29 @@
   src: url(../font/Helvetica.ttf);
 }
 
-
-
 .underline {
   text-decoration: underline;
 }
 
-
 .container {
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 50px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    flex-direction: column;
+  }
 }
 
 .twoColumns {
-  flex: 1; 
+  flex: 1;
   padding: 20px;
 }
 
@@ -54,19 +61,30 @@
 
 .back2 {
   background: rgb(228, 241, 237);
-  background: linear-gradient(90deg, rgba(228, 241, 237, 1) 35%, rgba(68, 194, 195, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(228, 241, 237, 1) 35%,
+    rgba(68, 194, 195, 1) 100%
+  );
 }
 
 .back3 {
   background: rgb(214, 132, 69);
-  background: linear-gradient(90deg, rgba(214, 132, 69, 1) 35%, rgba(245, 229, 215, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(214, 132, 69, 1) 35%,
+    rgba(245, 229, 215, 1) 100%
+  );
 }
 
 .back4 {
   background: rgb(245, 229, 215);
-  background: linear-gradient(90deg, rgba(245, 229, 215, 1) 35%, rgba(214, 132, 69, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 229, 215, 1) 35%,
+    rgba(214, 132, 69, 1) 100%
+  );
 }
-
 
 .App-header {
   min-height: 100vh;
@@ -79,7 +97,7 @@
   font-family: text;
 }
 
-.inputRegister{
+.inputRegister {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -91,7 +109,7 @@
   font-family: logo;
 }
 
-.logoImg{
+.logoImg {
   height: 50px;
 }
 
@@ -99,7 +117,7 @@
   color: #61dafb;
 }
 
-.long{
+.long {
   min-height: 695px;
   position: sticky;
 }
