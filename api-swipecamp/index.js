@@ -174,33 +174,24 @@ app.get("/videos", (req, res) => {
 app.get("/videos/campus/:idCampus", async (req, res) => {
   const { idCampus } = req.params;
 
-  const [result] = await db.execute(
-    "SELECT * FROM Video WHERE idCampus = ?",
-    [idCampus]
-  );
+  const [result] = await db.execute("SELECT * FROM Video WHERE idCampus = ?", [
+    idCampus,
+  ]);
 
-  res.json(result)
+  res.json(result);
 });
 
 app.get("/videos/reseau/", async (req, res) => {
+  const [result] = await db.execute("SELECT * FROM Video WHERE isGlobal = 1");
 
-  const [result] = await db.execute(
-    "SELECT * FROM Video WHERE isGlobal = 1",
-  );
-
-  res.json(result)
+  res.json(result);
 });
 
 app.get("/videos/admin/", async (req, res) => {
+  const [result] = await db.execute("SELECT * FROM Video WHERE isAdmin = 1");
 
-  const [result] = await db.execute(
-    "SELECT * FROM Video WHERE isAdmin = 1",
-  );
-
-  res.json(result)
+  res.json(result);
 });
-
-
 
 // Routes
 // Inscription d'un utilisateur
@@ -297,10 +288,6 @@ app.get("/users", async (req, res) => {
   }
 });
 
-
-
-
-
 // Route pour récupérer tous les campus
 app.get("/campus", async (req, res) => {
   try {
@@ -357,11 +344,11 @@ app.post("/videos/:idVideo/comments", async (req, res) => {
   }
 });
 
-// Route pour envoyer un message 
+// Route pour envoyer un message
 app.post("/messages", async (req, res) => {
-  const { content, idUserSender, idUserReceiver } = req.body; 
-  console.log('coucou')
-  console.log(content, idUserSender, idUserReceiver)
+  const { content, idUserSender, idUserReceiver } = req.body;
+  console.log("coucou");
+  console.log(content, idUserSender, idUserReceiver);
 
   try {
     const [result] = await db.execute(
@@ -370,7 +357,9 @@ app.post("/messages", async (req, res) => {
     );
 
     console.log("Message ajouté avec succès, ID du message :", result.insertId);
-    res.status(201).json({ message: "Message ajouté avec succès", id: result.insertId });
+    res
+      .status(201)
+      .json({ message: "Message ajouté avec succès", id: result.insertId });
   } catch (error) {
     console.error("Erreur lors de l'ajout du message :", error);
     res.status(500).json({ error: "Erreur lors de l'ajout du message" });
@@ -395,7 +384,9 @@ app.get("/messages/conversation", async (req, res) => {
     res.status(200).json(messages);
   } catch (error) {
     console.error("Erreur lors de la récupération des messages :", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des messages" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des messages" });
   }
 });
 
@@ -413,10 +404,12 @@ app.get("/users/:idUser", async (req, res) => {
       return res.status(404).json({ error: "Utilisateur non trouvé" });
     }
 
-    res.status(200).json(user[0]); 
+    res.status(200).json(user[0]);
   } catch (error) {
     console.error("Erreur lors de la récupération de l'utilisateur :", error);
-    res.status(500).json({ error: "Erreur lors de la récupération de l'utilisateur" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération de l'utilisateur" });
   }
 });
 
@@ -425,16 +418,15 @@ app.get("/campus/:idCampus", async (req, res) => {
   const { idCampus } = req.params;
 
   try {
-    const [user] = await db.execute(
-      "SELECT * FROM Campus WHERE idCampus = ?",
-      [idCampus]
-    );
+    const [user] = await db.execute("SELECT * FROM Campus WHERE idCampus = ?", [
+      idCampus,
+    ]);
 
     if (user.length === 0) {
       return res.status(404).json({ error: "Campus non trouvé" });
     }
 
-    res.status(200).json(user[0]); 
+    res.status(200).json(user[0]);
   } catch (error) {
     console.error("Erreur lors de la récupération du campus :", error);
     res.status(500).json({ error: "Erreur lors de la récupération du campus" });
@@ -444,8 +436,8 @@ app.get("/campus/:idCampus", async (req, res) => {
 //Récupérer toutes les personnes avec qui quelqu'un a eu une conv
 app.get("/users/:idUser/messages/contacts", async (req, res) => {
   const { idUser } = req.params;
-  
-    try {
+
+  try {
     const [contacts] = await db.execute(
       `SELECT DISTINCT u.idUser, u.firstName, u.lastName 
       FROM Message m JOIN Users u 
@@ -456,11 +448,11 @@ app.get("/users/:idUser/messages/contacts", async (req, res) => {
 
     res.status(200).json(contacts);
   } catch (error) {
-    res.status(500).json({ error: "Erreur lors de la récupération des contacts" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des contacts" });
   }
 });
-
-
 
 // Route pour envoyer une plainte
 app.post("/complaint", async (req, res) => {
@@ -478,14 +470,18 @@ app.post("/complaint", async (req, res) => {
       [content, isGlobal, idCategoryComplaint, idUser]
     );
 
-    console.log("Plainte ajoutée avec succès, ID du commentaire :", result.insertId);
-    res.status(201).json({ message: "Plainte ajoutée avec succès", id: result.insertId });
+    console.log(
+      "Plainte ajoutée avec succès, ID du commentaire :",
+      result.insertId
+    );
+    res
+      .status(201)
+      .json({ message: "Plainte ajoutée avec succès", id: result.insertId });
   } catch (error) {
     console.error("Erreur lors de l'ajout de la plainte :", error);
     res.status(500).json({ error: "Erreur lors de l'ajout de la plainte" });
   }
 });
-
 
 //Récupérer tous les commentaires d'une vidéo
 app.get("/videos/:idVideo/comments", async (req, res) => {
@@ -565,14 +561,13 @@ app.post("/videos/:idVideo/like", async (req, res) => {
 });
 
 // Vérifie si un utilisateur a déjà aimé une vidéo
-app.get("/videos/:idVideo/like/check", async (req, res) => {
-  const { idVideo } = req.params;
-  const userId = req.body;
+app.get("/videos/:idVideo/like/check/:idUser", async (req, res) => {
+  const { idVideo, idUser } = req.params;
 
   try {
     const [result] = await db.execute(
       "SELECT * FROM Likes WHERE idVideo = ? AND idUser = ?",
-      [idVideo, userId]
+      [idVideo, idUser]
     );
 
     if (result.length > 0) {
@@ -580,6 +575,22 @@ app.get("/videos/:idVideo/like/check", async (req, res) => {
     } else {
       res.status(200).json({ liked: false });
     }
+  } catch (error) {
+    console.error("Erreur lors de la vérification du like :", error);
+    res.status(500).json({ error: "Erreur lors de la vérification du like" });
+  }
+});
+
+app.get("/videos/:idVideo/like/count", async (req, res) => {
+  const { idVideo } = req.params;
+
+  try {
+    const [result] = await db.execute(
+      "SELECT COUNT(idVideo) FROM Likes WHERE idVideo = ?",
+      [idVideo]
+    );
+
+    res.json({ count: result[0]["COUNT(idVideo)"] });
   } catch (error) {
     console.error("Erreur lors de la vérification du like :", error);
     res.status(500).json({ error: "Erreur lors de la vérification du like" });
