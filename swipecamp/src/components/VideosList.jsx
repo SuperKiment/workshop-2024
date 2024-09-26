@@ -5,14 +5,29 @@ import useWindowDimensions from "./useWindowDimensions";
 import CommentsList from "./CommentsList";
 import { useSwipeable } from "react-swipeable";
 import "../style/swipe.css";
+import AddLike from "./AddLike";
 
-const VideosList = () => {
+const VideosList = ({ filActualite }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [videoList, setVideoList] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
+  const [commentsVisible, setCommentsVisible] = useState(false);
 
   useEffect(() => {
-    const url = bddURL + "videos/campus/" + user.idCampus;
+    let url = bddURL + "videos/";
+
+    switch (filActualite) {
+      case "Campus":
+        url += "campus/" + user.idCampus;
+        break;
+      case "Admin":
+        url += "admin";
+        break;
+      case "Reseau":
+        url += "reseau";
+        break;
+    }
+
     console.log(url);
 
     fetch(url).then(async (response) => {
@@ -61,7 +76,7 @@ const VideosList = () => {
               : "active"
           }`}
         >
-          <video style={styles.video} autoPlay loop>
+          <video style={styles.video} autoPlay loop muted>
             <source
               src={bddURL + "uploads/" + video.attachement}
               type="video/mp4"
@@ -70,7 +85,29 @@ const VideosList = () => {
           </video>
           <div className="sous-video">
             <p>{video.content}</p>
+            <div className="button-comment">
+              <AddLike videoId={video.idVideo} />
+
+              <button
+                onClick={() => {
+                  console.log(
+                    "comments" + (commentsVisible ? "" : "-inactive")
+                  );
+
+                  setCommentsVisible(!commentsVisible);
+                }}
+              >
+                <img src="/comment.png" alt="comment" />
+              </button>
+              <button>
+                <img src="/partage.png" alt="comment" />
+              </button>
+            </div>
+            <div className={"comments" + (commentsVisible ? "" : "-inactive")}>
+              <CommentsList />
+            </div>
           </div>
+          <div></div>
         </div>
       ))}
     </div>
