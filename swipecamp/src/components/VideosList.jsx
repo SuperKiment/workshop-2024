@@ -4,184 +4,103 @@ import { useUserContext } from "../context/UserContext";
 import useWindowDimensions from "./useWindowDimensions";
 import CommentsList from "./CommentsList";
 import { useSwipeable } from "react-swipeable";
+import "../style/swipe.css";
 
-const VideosList = ({ filActualite }) => {
-  const [videos, setVideos] = useState([]);
-  const [videosToShow, setVideosToShow] = useState([]);
-  const { height } = useWindowDimensions();
-  const { user } = useUserContext();
-  const videoRefs = useRef([]); // Refs pour toutes les vidéos
-  const [currentVideo, setCurrentVideo] = useState(0); // Vidéo actuelle visible
-
-  // Gestion du swipe
-  const handlers = useSwipeable({
-    onSwipedUp: () => handleNext(),
-    onSwipedDown: () => handlePrev(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true, // Gère les swipes avec la souris également
-    trackTouch: true,  // Priorise les événements tactiles
-  });
+const VideosList = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [videoList, setVideoList] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    getMoreVideos();
-    console.log(filActualite);
+    const url = bddURL + "videos/campus/" + user.idCampus;
+    console.log(url);
+
+    fetch(url).then(async (response) => {
+      response.json().then(async (data) => {
+        console.log("Vidéos :", data.length);
+        setVideoList(data);
+      });
+    });
   }, []);
 
-  const scrollToVideo = (index) => {
-    for (let video of videoRefs.current) {
-      //   if (!video.paused) video.pause();
-    }
+  // Gestion des swipes
+  const handlers = useSwipeable({
+    onSwipedUp: () => nextVideo(),
+    onSwipedDown: () => prevVideo(),
+    delta: 1, // seuil minimal pour déclencher un swipe
+    preventScrollOnSwipe: true,
+    trackTouch: true, // pour les mobiles
+    trackMouse: true, // pour les PC
+  });
 
-    if (videoRefs.current[index]) {
-      videoRefs.current[index].scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      //   videoRefs.current[index].play();
-      setCurrentVideo(index);
-    }
+  // Passer à la vidéo suivante
+  const nextVideo = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % videoList.length);
   };
 
-  const getMoreVideos = async () => {
-    let url = "";
-    const userStored = JSON.parse(localStorage.getItem("user"));
-
-    switch (filActualite) {
-      case "Campus":
-        url = bddURL + "videos/campus/" + userStored.idCampus;
-        break;
-      case "Reseau":
-        url = bddURL + "videos/reseau/";
-        break;
-      case "Admin":
-        url = bddURL + "videos/admin/";
-        break;
-    }
-    try {
-      fetch(url).then(async (response) => {
-        response.json().then(async (data) => {
-          setVideos(...videos, data);
-          setVideosToShow(...videosToShow, [data[0], data[1]]);
-          console.log("Vidéos :", data.length);
-        });
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const addVideoAtEnd = async () => {
-    console.log("length :", videos.length, videosToShow.length);
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    let videoToAdd =
-      videos[
-        videos.length > videosToShow.length
-          ? videosToShow.length - 1
-          : getRandomInt(videos.length)
-      ];
-    console.log(videos);
-
-    console.log(videoToAdd);
-
-    console.log("added video", videoToAdd.attachement);
-
-    setVideosToShow([...videosToShow, videoToAdd]);
-  };
-
-  const handleNext = () => {
-    const nextVideo = currentVideo + 1;
-
-    if (nextVideo + 2 > videosToShow.length) {
-      addVideoAtEnd();
-    }
-    scrollToVideo(nextVideo);
-  };
-
-  const handlePrev = () => {
-    const prevVideo =
-      currentVideo - 1 >= 0 ? currentVideo - 1 : videos.length - 1;
-    scrollToVideo(prevVideo);
-  };
-
-  const BoutonsNavigation = () => {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 1000,
-        }}
-      >
-        <button onClick={handlePrev}>Précédent</button>
-        <button onClick={handleNext} style={{ marginLeft: "10px" }}>
-          Suivant
-        </button>
-      </div>
-    );
-  };
-
-  const OneVideo = ({ index, video }) => {
-    const [commentsVisible, setCommentsVisible] = useState(false);
-    return (
-      video && (
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <video
-            ref={(el) => (videoRefs.current[index] = el)}
-            width={height / (16 / 9)}
-            height={height}
-            controls
-            style={{ backgroundColor: "black", margin: "20px" }}
-            autoPlay
-            loop
-          >
-            <source
-              src={`${bddURL}uploads/${video.attachement}`}
-              type="video/mp4"
-            />
-            Votre navigateur ne supporte pas la balise vidéo.
-          </video>
-          <div>
-            <button
-              onClick={() => {
-                setCommentsVisible(!commentsVisible);
-              }}
-            >
-              Commentaires
-            </button>
-
-            {commentsVisible && (
-              <div
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "20px",
-                  padding: "30px",
-                }}
-              >
-                <CommentsList videoId={video.idVideo} />
-              </div>
-            )}
-          </div>
-        </div>
-      )
+  // Revenir à la vidéo précédente
+  const prevVideo = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? videoList.length - 1 : prevIndex - 1
     );
   };
 
   return (
-    <div {...handlers}>
-      <div>
-        {videosToShow.map((video, index) => {
-          return <OneVideo index={index} video={video} key={index} />;
-        })}
-      </div>
-      <BoutonsNavigation />
+    <div {...handlers} style={styles.container}>
+      {videoList.map((video, index) => (
+        <div
+          key={index}
+          style={{
+            ...styles.videoContainer,
+          }}
+          className={`video-container video-${
+            index < currentIndex
+              ? "avant"
+              : index > currentIndex
+              ? "apres"
+              : "active"
+          }`}
+        >
+          <video style={styles.video} autoPlay loop>
+            <source
+              src={bddURL + "uploads/" + video.attachement}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          <div className="sous-video">
+            <p>{video.content}</p>
+          </div>
+        </div>
+      ))}
     </div>
   );
+};
+
+// Styles simples pour le conteneur et les vidéos
+const styles = {
+  container: {
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    position: "relative",
+    top: "40px",
+  },
+  videoContainer: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    textAlign: "center",
+  },
+  video: {
+    maxHeight: "90%",
+    maxWidth: "90%",
+  },
 };
 
 export default VideosList;

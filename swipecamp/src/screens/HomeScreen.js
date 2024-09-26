@@ -6,10 +6,11 @@ import flyer from "../img/SwipeOCamp.png";
 import { useNavigate } from "react-router-dom";
 import { useId, useState, useEffect, props } from "react";
 import { useUserContext } from "../context/UserContext";
-import AddCommentScreen from "../screens/AddCommentScreen"; 
+import AddCommentScreen from "../screens/AddCommentScreen";
 import { bddURL } from "../config";
 import AddLike from "../components/AddLike";
 import CommentsList from "../components/CommentsList";
+import DropdownNavigation from "./DropdownNavigation";
 
 function Home() {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ function Home() {
 
   return (
     <div className="App back1 long">
+      <div className="back1-fond"></div>
       {/* <DevTools /> */}
       <nav className="navbarBack1">
         <div className="navbar-logoBack1">
@@ -55,13 +57,7 @@ function Home() {
         </div>
         <div className="navbar-menuBack1">
           {user ? (
-            <button
-              onClick={() => {
-                navigate("profil");
-              }}
-            >
-              {"Bonjour, " + user.firstName}
-            </button>
+            <DropdownNavigation />
           ) : (
             <button
               onClick={() => {

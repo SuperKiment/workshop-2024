@@ -1,136 +1,152 @@
 @font-face {
-    font-family: logo;
-    src: url(../font/Barbra-Regular.otf);
-  }
-  
-  @font-face {
-    font-family: slogan;
-    src: url(../font/Simonetta-Regular.ttf);
-  }
-  
-  @font-face {
-    font-family: text;
-    src: url(../font/Helvetica.ttf);
-  }
+  font-family: logo;
+  src: url(../font/Barbra-Regular.otf);
+}
+
+@font-face {
+  font-family: slogan;
+  src: url(../font/Simonetta-Regular.ttf);
+}
+
+@font-face {
+  font-family: text;
+  src: url(../font/Helvetica.ttf);
+}
 
 .navbarBack1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .navbar-logoBack1 {
-    display: flex;
-    align-items: center;
-    font-family: 'logo';
+  display: flex;
+  align-items: center;
+  font-family: "logo";
 }
 
 .navbar-logoBack1 a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 .navbar-logoBack1 img.logoImg {
-    width: 60px;
-    height: auto;
-    margin-right: 10px;
+  width: 60px;
+  height: auto;
+  margin-right: 10px;
 }
 
 .navbar-logoBack1 p {
-    margin: 0;
-    font-family: 'logo';
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
+  margin: 0;
+  font-family: "logo";
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .navbar-menuBack1 button {
-    font-family: 'text';
-    list-style: none;
-    display: flex;
-    margin-right: 25px;
-    padding: 15px;
-    background-color: white;
-    color: rgb(68, 194, 195);
-    border-radius: 10px;
-    border: none;
-    font-weight: bold;
+  font-family: "text";
+  list-style: none;
+  display: flex;
+  margin-right: 25px;
+  padding: 15px;
+  background-color: white;
+  color: rgb(68, 194, 195);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
 }
 
 .navbar-menuBack1 button:hover {
-    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+  box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
 }
 
 .navbar-menuBack1 ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    transition: color 0.3s ease;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
 }
 
 .navbar-menuBack1 ul li a:hover {
-    color: #ddd;
+  color: #ddd;
 }
 
-
-
 .back1 {
-    background: rgb(68, 194, 195);
-    background: linear-gradient(90deg, rgba(68, 194, 195, 1) 35%, rgba(227, 241, 236, 1) 100%);
+  height: 100%;
+  width: 100%;
+  background: rgb(68, 194, 195);
+  background: linear-gradient(
+    90deg,
+    rgba(68, 194, 195, 1) 35%,
+    rgba(227, 241, 236, 1) 100%
+  );
+}
+
+.back1-fond {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgb(68, 194, 195);
+  background: linear-gradient(
+    90deg,
+    rgba(68, 194, 195, 1) 35%,
+    rgba(227, 241, 236, 1) 100%
+  );
+  z-index: -100;
 }
 
 .back1 h1 {
-    color: white;
-    font-family: text;
-    font-size: 50px;
-    margin-bottom: 50px;
-    /* padding: 50px; */
-    font-weight: bold;
+  color: white;
+  font-family: text;
+  font-size: 50px;
+  margin-bottom: 50px;
+  /* padding: 50px; */
+  font-weight: bold;
 }
 
-
 .back1 h2 {
-    color: white;
-    font-family: text;
-    font-size: 25px;
-    margin-bottom: 10px;
-    padding: 10px;
-    font-weight: bold;
+  color: white;
+  font-family: text;
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-weight: bold;
 }
 
 .back1 select {
-    font-family: 'text';
-    list-style: none;
-    margin-right: 25px;
-    padding: 15px;
-    background-color: white;
-    color: rgb(68, 194, 195);
-    border-radius: 10px;
-    border: none;
-    font-weight: bold;
-    font-size: 20px;
+  font-family: "text";
+  list-style: none;
+  margin-right: 25px;
+  padding: 15px;
+  background-color: white;
+  color: rgb(68, 194, 195);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .pBack1 {
-    color: white;
-    font-family: text;
+  color: white;
+  font-family: text;
 }
 
 .back1 button {
-    font-family: 'text';
-    list-style: none;
-    margin-right: 25px;
-    padding: 15px;
-    background-color: white;
-    color: rgb(68, 194, 195);
-    border-radius: 10px;
-    border: none;
-    font-weight: bold;
-    font-size: 20px;
+  font-family: "text";
+  list-style: none;
+  margin-right: 25px;
+  padding: 15px;
+  background-color: white;
+  color: rgb(68, 194, 195);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .back1 button:hover {
-    box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
+  box-shadow: 5px 5px 5px rgba(86, 84, 84, 0.495);
 }

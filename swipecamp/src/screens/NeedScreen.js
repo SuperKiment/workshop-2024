@@ -5,6 +5,7 @@ import logo from "../img/Hippocampe.png";
 import { useNavigate } from "react-router-dom";
 import { useId, useState, useEffect, props } from "react";
 import { useUserContext } from "../context/UserContext";
+import DropdownNavigation from "./DropdownNavigation";
 
 function Need() {
   const navigate = useNavigate();
@@ -23,13 +24,7 @@ function Need() {
         </div>
         <div className="navbar-menuBack3">
           {user ? (
-            <button
-              onClick={() => {
-                navigate("profil");
-              }}
-            >
-              {"Bonjour, " + user.firstName}
-            </button>
+            <DropdownNavigation />
           ) : (
             <button
               onClick={() => {

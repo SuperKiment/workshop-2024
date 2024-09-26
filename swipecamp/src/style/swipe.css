@@ -1,0 +1,52 @@
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+
+.video-container {
+  width: 100%;
+  transition: 200ms ease-in-out;
+}
+
+.video-active {
+  transform: translateY(0%);
+}
+
+.video-avant {
+  transform: translateY(-100%);
+}
+
+.video-apres {
+  transform: translateY(100%);
+}
+
+.container-swipe {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: fixed;
+}
+
+.fils-boutons {
+  margin: auto;
+  width: 100%;
+}
+
+.fils-boutons a {
+  margin: 10px;
+}
+
+.sous-video {
+   color: white;
+    background-color: rgba(0, 0, 0, .5); 
+    position: relative;
+    margin: 0;
+    width: 100%;
+    top: -200px;
+    height: 200px;
+}
+
