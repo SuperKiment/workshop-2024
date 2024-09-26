@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import UploadForm from "../components/UploadForm";
 import VideosList from "../components/VideosList";
 import "../style/back3.css";
+import "../style/swipe.css";
 
 function Videos() {
   const [uploadVisible, setUploadVisible] = useState();
@@ -23,71 +24,75 @@ function Videos() {
           </a>
         </div>
       </nav>
-      <div className="container">
-        <div></div>
-        <div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <a
-              className="pBack4"
-              style={
-                filActualite == "Campus"
-                  ? { flex: "1", borderBottom: "5px solid white" }
-                  : { flex: "1" }
-              }
-              onClick={() => {
-                setFilActualite("Campus");
-              }}
-            >
-              Campus
-            </a>
-            <a
-              className="pBack4"
-              onClick={() => {
-                setFilActualite("Reseau");
-              }}
-              style={
-                filActualite == "Reseau"
-                  ? { flex: "1", borderBottom: "5px solid white" }
-                  : { flex: "1" }
-              }
-            >
-              Réseau C&D
-            </a>
-            <a
-              className="pBack4"
-              onClick={() => {
-                setFilActualite("Admin");
-              }}
-              style={
-                filActualite == "Admin"
-                  ? { flex: "1", borderBottom: "5px solid white" }
-                  : { flex: "1" }
-              }
-            >
-              Administration
-            </a>
-            <a
-              className="pBack4"
-              style={{ flex: "1" }}
-              onClick={() => {
-                setUploadVisible(!uploadVisible);
-              }}
-            >
-              Upload
-            </a>
-          </div>
-
-          {uploadVisible && <UploadForm />}
-          {!uploadVisible &&
-            fils.map((fil, index) => {
-              return (
-                filActualite == fil && (
-                  <VideosList key={index} filActualite={fil} />
-                )
-              );
-            })}
+      <div className="container-swipe">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            position: "fixed",
+            zIndex: 1,
+          }}
+          className="fils-boutons"
+        >
+          <a
+            className="pBack4"
+            style={
+              filActualite == "Campus"
+                ? { flex: "1", borderBottom: "5px solid white" }
+                : { flex: "1" }
+            }
+            onClick={() => {
+              setFilActualite("Campus");
+            }}
+          >
+            Campus
+          </a>
+          <a
+            className="pBack4"
+            onClick={() => {
+              setFilActualite("Reseau");
+            }}
+            style={
+              filActualite == "Reseau"
+                ? { flex: "1", borderBottom: "5px solid white" }
+                : { flex: "1" }
+            }
+          >
+            Réseau C&D
+          </a>
+          <a
+            className="pBack4"
+            onClick={() => {
+              setFilActualite("Admin");
+            }}
+            style={
+              filActualite == "Admin"
+                ? { flex: "1", borderBottom: "5px solid white" }
+                : { flex: "1" }
+            }
+          >
+            Administration
+          </a>
+          <a
+            className="pBack4"
+            style={{ flex: "1" }}
+            onClick={() => {
+              setUploadVisible(!uploadVisible);
+            }}
+          >
+            Upload
+          </a>
         </div>
-        <div></div>
+
+        {uploadVisible && <UploadForm />}
+        {!uploadVisible &&
+          fils.map((fil, index) => {
+            return (
+              filActualite == fil && (
+                <VideosList key={index} filActualite={fil} />
+              )
+            );
+          })}
       </div>
     </div>
   );
