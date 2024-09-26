@@ -19,6 +19,7 @@ const VideosList = ({ filActualite }) => {
     onSwipedDown: () => handlePrev(),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true, // Gère les swipes avec la souris également
+    trackTouch: true,  // Priorise les événements tactiles
   });
 
   useEffect(() => {
