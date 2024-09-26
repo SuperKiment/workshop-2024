@@ -12,6 +12,7 @@ import AddComplaintScreen from "./screens/AddComplaintScreen";
 import Need from "./screens/NeedScreen";
 import MessageScreen from "./screens/SendMessageScreen";
 import MessageContacts from "./screens/MessageContacts";
+import MessageConversation from "./screens/MessageConversation";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
           <Route path="/complaint" element={<AddComplaintScreen />} />
           <Route path="/need" element={<Need />} />
           <Route path="/sendMessage" element={<MessageScreen />} />
-          <Route path="/MessageContacts" element={<MessageContacts />} />
+          <Route path="/messageContacts" element={<MessageContacts />} />
+          <Route path="/messages/:idUser" element={<MessageConversation />} />
         </Routes>
       </Router>
     </UserProvider>
