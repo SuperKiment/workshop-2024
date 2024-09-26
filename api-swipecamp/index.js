@@ -299,6 +299,8 @@ app.get("/users", async (req, res) => {
 
 
 
+
+
 // Route pour récupérer tous les campus
 app.get("/campus", async (req, res) => {
   try {
@@ -415,6 +417,27 @@ app.get("/users/:idUser", async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la récupération de l'utilisateur :", error);
     res.status(500).json({ error: "Erreur lors de la récupération de l'utilisateur" });
+  }
+});
+
+// Récupérer toutes les infos d'un campus
+app.get("/campus/:idCampus", async (req, res) => {
+  const { idCampus } = req.params;
+
+  try {
+    const [user] = await db.execute(
+      "SELECT * FROM Campus WHERE idCampus = ?",
+      [idCampus]
+    );
+
+    if (user.length === 0) {
+      return res.status(404).json({ error: "Campus non trouvé" });
+    }
+
+    res.status(200).json(user[0]); 
+  } catch (error) {
+    console.error("Erreur lors de la récupération du campus :", error);
+    res.status(500).json({ error: "Erreur lors de la récupération du campus" });
   }
 });
 
