@@ -297,6 +297,8 @@ app.get("/users", async (req, res) => {
   }
 });
 
+
+
 // Route pour récupérer tous les campus
 app.get("/campus", async (req, res) => {
   try {
@@ -370,6 +372,49 @@ app.post("/messages", async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de l'ajout du message :", error);
     res.status(500).json({ error: "Erreur lors de l'ajout du message" });
+  }
+});
+
+// Récupérer tous les messages échangés entre deux utilisateurs
+app.get("/messages/conversation", async (req, res) => {
+  const { idUserSender, idUserReceiver } = req.query;
+
+  try {
+    const [messages] = await db.execute(
+      `SELECT m.content, m.dateSended, Users.firstName, m.idUserSender
+      FROM Message m
+      JOIN Users ON m.idUserSender = Users.idUser
+      WHERE (m.idUserSender = ? AND m.idUserReceiver = ?)
+      OR (m.idUserSender = ? AND m.idUserReceiver = ?)
+      ORDER BY m.dateSended ASC;`,
+      [idUserSender, idUserReceiver, idUserReceiver, idUserSender]
+    );
+
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des messages :", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des messages" });
+  }
+});
+
+// Récupérer nom et prénom d'un user
+app.get("/users/:idUser", async (req, res) => {
+  const { idUser } = req.params;
+
+  try {
+    const [user] = await db.execute(
+      "SELECT firstName, lastName FROM Users WHERE idUser = ?",
+      [idUser]
+    );
+
+    if (user.length === 0) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json(user[0]); 
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
+    res.status(500).json({ error: "Erreur lors de la récupération de l'utilisateur" });
   }
 });
 
