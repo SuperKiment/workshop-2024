@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../style/style.css";
 import "../style/back4.css";
 import logo from "../img/Hippocampe.png";
+import DropdownNavigation from "./DropdownNavigation";
 
 const MessageContacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -51,13 +52,7 @@ const MessageContacts = () => {
         </div>
         <div className="navbar-menuBack4">
           {user ? (
-            <button
-              onClick={() => {
-                navigate("/profil");
-              }}
-            >
-              {"Bonjour, " + user.firstName}
-            </button>
+            <DropdownNavigation />
           ) : (
             <button
               onClick={() => {

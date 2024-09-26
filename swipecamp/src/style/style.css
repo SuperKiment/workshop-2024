@@ -103,3 +103,8 @@
   min-height: 695px;
   position: sticky;
 }
+
+.campusImg{
+  width: 500px;
+  border-radius: 10px;
+}

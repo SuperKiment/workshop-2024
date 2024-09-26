@@ -5,6 +5,7 @@ import DevTools from "../components/DevTools";
 import { useUserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import DropdownNavigation from "./DropdownNavigation";
 
 function Profil() {
   const { user, logout, setUser } = useUserContext();
@@ -26,6 +27,19 @@ function Profil() {
             <img src={logo} alt="Logo" className="logoImg" />
             <p>SWIPE O'CAMP</p>
           </a>
+        </div>
+        <div className="navbar-menuBack4">
+          {user ? (
+            <DropdownNavigation />
+          ) : (
+            <button
+              onClick={() => {
+                navigate("login");
+              }}
+            >
+              Mon Espace
+            </button>
+          )}
         </div>
       </nav>
       <div className="containerBack4">

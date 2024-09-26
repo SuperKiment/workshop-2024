@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 import UploadForm from "../components/UploadForm";
 import VideosList from "../components/VideosList";
 import "../style/back3.css";
+import DropdownNavigation from "./DropdownNavigation";
+import { useUserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Videos() {
   const [uploadVisible, setUploadVisible] = useState();
   const [filActualite, setFilActualite] = useState("Admin");
+  const {user} = useUserContext();
+  const navigate = useNavigate();
 
   const fils = ["Campus", "Reseau", "Admin"];
 
   return (
     <div className="App back4">
-      {/* <DevTools /> */}
 
       <nav className="navbarBack3">
         <div className="navbar-logoBack3">
@@ -21,6 +25,19 @@ function Videos() {
             <img src={logo} alt="Logo" className="logoImg" />
             <p>SWIPE O'CAMP</p>
           </a>
+        </div>
+        <div className="navbar-menuBack1">
+          {user ? (
+            <DropdownNavigation />
+          ) : (
+            <button
+              onClick={() => {
+                navigate("login");
+              }}
+            >
+              Mon Espace
+            </button>
+          )}
         </div>
       </nav>
       <div className="container">

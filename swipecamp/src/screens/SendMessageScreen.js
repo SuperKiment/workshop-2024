@@ -6,6 +6,7 @@ import "../style/back2.css";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
+import DropdownNavigation from "./DropdownNavigation";
 
 const MessageScreen = () => {
   const navigate = useNavigate();
@@ -22,13 +23,7 @@ const MessageScreen = () => {
         </div>
         <div className="navbar-menuBack4">
           {user ? (
-            <button
-              onClick={() => {
-                navigate("/profil");
-              }}
-            >
-              {"Bonjour, " + user.firstName}
-            </button>
+            <DropdownNavigation />
           ) : (
             <button
               onClick={() => {

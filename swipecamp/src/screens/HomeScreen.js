@@ -10,6 +10,7 @@ import AddCommentScreen from "../screens/AddCommentScreen";
 import { bddURL } from "../config";
 import AddLike from "../components/AddLike";
 import CommentsList from "../components/CommentsList";
+import DropdownNavigation from "./DropdownNavigation";
 
 function Home() {
   const navigate = useNavigate();
@@ -55,13 +56,7 @@ function Home() {
         </div>
         <div className="navbar-menuBack1">
           {user ? (
-            <button
-              onClick={() => {
-                navigate("profil");
-              }}
-            >
-              {"Bonjour, " + user.firstName}
-            </button>
+            <DropdownNavigation />
           ) : (
             <button
               onClick={() => {

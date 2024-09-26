@@ -42,7 +42,8 @@ const LoginForm = () => {
       const data = await response.json();
       console.log("Login successful:", data);
       setUser({ ...data.user, token: data.token });
-      navigate("/");
+      // navigate("/campus");
+      window.location.href = "/campus";
     } catch (err) {
       setError(err.message);
     } finally {

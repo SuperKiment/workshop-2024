@@ -13,6 +13,7 @@ import Need from "./screens/NeedScreen";
 import MessageScreen from "./screens/SendMessageScreen";
 import MessageContacts from "./screens/MessageContacts";
 import MessageConversation from "./screens/MessageConversation";
+import Logout from "./screens/Logout";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/campus" element={<Campus />} />
           <Route path="/register/:campusId" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/profil" element={<Profil />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/complaint" element={<AddComplaintScreen />} />
