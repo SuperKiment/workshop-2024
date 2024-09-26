@@ -61,9 +61,10 @@ const SendMessage = () => {
     };
 
     return (
-        <form onSubmit={addMessage}>
+        <div className="register-formBack4 register-form">
+            <form onSubmit={addMessage}>
             <div>
-                <label>Choisir un destinataire :</label>
+                <label className="pBack4Bis ">Choisir un destinataire : </label>
                 <select
                     value={idUserReceiver}
                     onChange={(e) => setIdUserReceiver(e.target.value)}
@@ -86,6 +87,8 @@ const SendMessage = () => {
             <button type="submit">Envoyer le message</button>
             {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
+    </div>
+        
     );
 };
 
